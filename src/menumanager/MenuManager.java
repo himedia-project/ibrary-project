@@ -128,10 +128,10 @@ public class MenuManager {
 			
 			switch(choice) {
 				case USER_INFO:
-					user.UserInformation();
+					user.showUserInfo();
 					break;
 				case SHOW_LENTLIST:
-					user.ShowRentList();
+					user.showRentList();
 					break;
 				case MAINMENU:
 					return;
