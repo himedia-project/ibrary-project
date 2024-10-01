@@ -99,6 +99,7 @@ public class MenuManager {
 					MyPage();
 					break;
 				case FAVORITES:
+					// TODO : 화면상 입력 로직 추가하기
 					favoriteManager.viewCart(UserManager.currentUserEmail);
 					break;
 				case LOGOUT:
