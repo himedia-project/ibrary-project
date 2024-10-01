@@ -40,6 +40,7 @@ public class FavoriteManager {
      * @param userId
      */
     public void viewCart(String userId) {
+        // TODO: 즐겨찾기 북리스트 보기
         List<Favorite> favorites = favoriteRepository.allFetch(userId);
         for (Favorite favorite : favorites) {
             System.out.println(favorite);
