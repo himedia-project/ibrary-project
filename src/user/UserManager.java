@@ -26,7 +26,10 @@ public class UserManager {
         rentRepository = new RentRepository();
     }
 
-//  login 로그인 메서드
+	/**
+	 * 로그인을 실행시키기 위한 메서드
+	 * @return
+	 */
 
     public boolean loginProcess() {
         MenuManager menu = new MenuManager();
@@ -46,6 +49,13 @@ public class UserManager {
         }
     }
 
+    /**
+     * db에 있는 id,password가 일치하는지 확인하는 메서드
+     * @param id
+     * @param password
+     * @return
+     */
+    
     public boolean loginProcess(String id, String password) {
         String sql = "SELECT * FROM user WHERE id = ? AND password = ?";
 
@@ -70,8 +80,14 @@ public class UserManager {
     }
 
 //  register 회원가입 메서드
+    
+    /**
+     * 중복값 체크 메서드
+     * @param id
+     * @return
+     */
 
-    public boolean isIdDuplicate(String id) { // 중복값 체크 메서드 
+    public boolean isIdDuplicate(String id) { 
         String sql = "select count(*) from user where id = ?";
         try {
             conn = getDBConnect();
@@ -89,8 +105,14 @@ public class UserManager {
         return false;
     }
 
+    /**
+     * db에 적절한 값을 넣었는지 확인하기 위한 메서드
+     * @param user
+     * @return
+     */
+    
 
-    public boolean registerUser(User user) { // 적절히 값을 넣었는지 확인하는 메서드
+    public boolean registerUser(User user) { 
         String sql = "insert into user (id, name, password, phone, address_id, birth_date) values (?, ?, ?, ?, ?, ?)";
         try {
             conn = getDBConnect();
@@ -111,7 +133,11 @@ public class UserManager {
         }
     }
 
-    public void registerUser() { // 회원가입 메서드
+    /**
+     *  회원가입 메서드
+     */
+    
+    public void registerUser() { 
         AddressManager addressManager = new AddressManager();
         while (true) {
             try {
@@ -134,7 +160,7 @@ public class UserManager {
                 System.out.print("이름: ");
                 String name = scanner.nextLine();
 
-                System.out.print("전화번호: ");
+                System.out.print("전화번호 (010xxxxxxxx or 010-xxxx-xxxx): ");
                 String phone = scanner.nextLine();
 
                 System.out.print("생년월일 (YYYY-MM-DD): ");
@@ -146,7 +172,7 @@ public class UserManager {
                     continue;
                 }
 
-                System.out.println("주소를 입력해주세요: ");
+                System.out.println("주소를 입력해주세요 (5자리 우편번호): ");
                 Address address = addressManager.registAddress();
                 long address_id = address.getId();
 
@@ -166,9 +192,11 @@ public class UserManager {
         }
     }
 
-//    userinformation 유저 정보 메서드
+    /**
+     * 유저정보 출력하는 메서드
+     */
 
-    public void showUserInfo() { //유저정보 출력하는 메서드
+    public void showUserInfo() { 
 
         String sql = "select u.id, u.name, u.phone, u.birth_date, a.addr1, a.addr2, a.zip_code \r\n"
                 + "from user u\r\n"
@@ -203,8 +231,11 @@ public class UserManager {
         }
     }
 
-
-    public void showRentList() { //렌트 리스트 보여주는 리스트
+    /**
+     * 렌트 리스트 보여주는 메서드
+     */
+    
+    public void showRentList() { 
         List<Rent> rentList = this.rentRepository.rentListByUserId(currentUserEmail);
         if (rentList.isEmpty()) {
             System.out.println("대여한 책이 없습니다.");
