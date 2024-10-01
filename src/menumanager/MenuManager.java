@@ -23,10 +23,10 @@ public class MenuManager {
     private DBConnectionUtil db = new DBConnectionUtil();
     private BookManager bookmanager = new BookManager();
     private CategoryManager categorymanager = new CategoryManager();
-<<<<<<< HEAD
-=======
+
+
 	private FavoriteManager favoriteManager = null;
->>>>>>> 700d95a6c27731fdce5dd65ddf182ff6ba78421b
+
     
     public MenuManager() {
 		favoriteManager = new FavoriteManager();
@@ -49,50 +49,57 @@ public class MenuManager {
         System.out.println("\n              Press Enter to continue...");
         scanner.nextLine();  // 사용자가 엔터를 누를 때까지 대기
         
-    	while(true) {
-    		db.getDBConnect();
-    		System.out.println("<< 도서 대여관리 프로그램 >>"); 
-    		System.out.println("1. 회원가입");
-    		System.out.println("2. 로그인");
-    		System.out.println("3. 종료");
-    		System.out.print("선택: ");
-    		int choice = scanner.nextInt();
-    		scanner.nextLine();
-    		
-    		switch(choice){
-    			case REGIST:
-    				user.registerUser();
-    				break;
-    			case LOGIN:
-    				user.loginProcess();
-    				break;
-    			case EXIT:
-    				System.out.println("프로그램을 종료합니다.");
-    				return;
-    			default:
-    				System.out.println("잘못된 번호를 선택하였습니다! 다시 선택해주세요!");
-    		}
-    	}  
+        while(true) {
+            db.getDBConnect();
+            System.out.println("\n\n");
+            System.out.println("   =====================================================");
+            System.out.println("   =                                                   =");
+            System.out.println("   =           << 도서 대여관리 프로그램 >>              =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =          1. 회원가입    2. 로그인   3. 종료         =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =               📚  📖  📚  📖  📚                  =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =====================================================");
+            System.out.print("   선택: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            
+            switch(choice){
+                case REGIST:
+                	user.registerUser();
+                    break;
+                case LOGIN:
+                	user.loginProcess();
+                    break;
+                case EXIT:
+                    System.out.println("\n   프로그램을 종료합니다. 안녕히 가세요!");
+                    return;
+                default:
+                    System.out.println("\n   잘못된 번호를 선택하였습니다! 다시 선택해주세요!");
+            }
+        }  
     }
+    
 	public void iBraryMenu() {
 		while(true) {
-            System.out.println("\n=======================================");
-            System.out.println("=    ___   _                           =");
-            System.out.println("=   |_ _| | |__  _ __ __ _ _ __ _   _  =");
-            System.out.println("=    | |  | '_ \\| '__/ _` | '__| | | | =");
-            System.out.println("=    | |  | |_) | | | (_| | |  | |_| | =");
-            System.out.println("=   |___| |_.__/|_|  \\__,_|_|   \\__, | =");
-            System.out.println("=                               |___/  =");
-            System.out.println("=======================================");
-//            categorymanager.displayBookList();
-            System.out.println("<< 도서 대여 관리 프로그램 >>");
-            System.out.println("1. 도서 검색");
-            System.out.println("2. 유저");
-            System.out.println("3. 즐겨찾기");
-            System.out.println("4. 로그아웃");
-			System.out.print("선택: ");
-			int choice = scanner.nextInt();
-			scanner.nextLine();
+            System.out.println("\n\n");
+            System.out.println("   =====================================================");
+            System.out.println("   =    ___   _                           _____        =");
+            System.out.println("   =   |_ _| | |__  _ __ __ _ _ __ _   _ |  ___|       =");
+            System.out.println("   =    | |  | '_ \\| '__/ _` | '__| | | || |           =");
+            System.out.println("   =    | |  | |_) | | | (_| | |  | |_| || |___        =");
+            System.out.println("   =   |___| |_.__/|_|  \\__,_|_|   \\__, ||_____|       =");
+            System.out.println("   =                               |___/               =");
+            System.out.println("   =====================================================");
+            System.out.println("   =                                                   =");
+            System.out.println("   =        1. 도서 검색       2. 마이 페이지            =");
+            System.out.println("   =        3. 즐겨찾기        4. 로그아웃               =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =====================================================");
+            System.out.print("   선택: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 			
 			switch(choice) {
 				case BOOK_SEARCH:
@@ -115,43 +122,91 @@ public class MenuManager {
 		}
 	}
 
-	public void MyPage() { 
-
-		while(true) {
-	        System.out.println("\n\n");
-	        System.out.println("   =====================================================");
-	        System.out.println("   =                   마이 페이지                      =");
-	        System.out.println("   =                                                   =");
-	        System.out.println("   =                     _______                       =");
-	        System.out.println("   =                    /       \\                      =");
-	        System.out.println("   =                   |  o   o  |                     =");
-	        System.out.println("   =                   |    ^    |                     =");
-	        System.out.println("   =                    \\  \\_/  /                      =");
-	        System.out.println("   =                     \\_____/                       =");
-	        System.out.println("   =                    /       \\                      =");
-	        System.out.println("   =                   /         \\                     =");
-	        System.out.println("   =                                                   =");
-	        System.out.println("   =====================================================");
-			System.out.println("1. 유저정보");
-			System.out.println("2. 빌린 책 리스트");
-			System.out.println("3. 메인메뉴");
-			System.out.print("선택: ");
-			int choice = scanner.nextInt();
-			scanner.nextLine();
-			
-			switch(choice) {
-				case USER_INFO:
-					user.showUserInfo();
-					break;
-				case SHOW_LENTLIST:
-					user.showRentList();
-					break;
-				case MAINMENU:
-					return;
-				default:
-					System.out.println("잘못된 선택입니다.");
-			}
-		}
-	}
+    public void MyPage() { 
+        while(true) {
+            System.out.println("\n\n");
+            System.out.println("   =====================================================");
+            System.out.println("   =                   마이 페이지                      =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =                     _______                       =");
+            System.out.println("   =                    /       \\                      =");
+            System.out.println("   =                   |  o   o  |                     =");
+            System.out.println("   =                   |    ^    |                     =");
+            System.out.println("   =                    \\  \\_/  /                      =");
+            System.out.println("   =                     \\_____/                       =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =        1. 유저정보       2. 빌린 책 리스트           =");
+            System.out.println("   =              3. 메인메뉴로 돌아가기                  =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =====================================================");
+            System.out.print("   선택: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            
+            switch(choice) {
+                case USER_INFO:
+                    user.showUserInfo();
+                    break;
+                case SHOW_LENTLIST:
+                    user.showRentList();
+                    break;
+                case MAINMENU:
+                    return;
+                default:
+                    System.out.println("\n   잘못된 선택입니다. 다시 선택해주세요.");
+            }
+        }
+    }
 	
+    public void FavoritesMenu() {
+        String userId = "user123"; // 예시 사용자 ID. 실제로는 로그인한 사용자의 ID를 사용해야 합니다.
+        while(true) {
+            System.out.println("\n\n");
+            System.out.println("   =====================================================");
+            System.out.println("   =                    즐겨찾기                        =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =            ★  ★  ★  ★  ★  ★  ★                =");
+            System.out.println("   =           ☆   F A V O R I T E S   ☆              =");
+            System.out.println("   =            ★  ★  ★  ★  ★  ★  ★                =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =     1. 즐겨찾기 목록 보기                           =");
+            System.out.println("   =     2. 즐겨찾기 추가                                =");
+            System.out.println("   =     3. 즐겨찾기 삭제                                =");
+            System.out.println("   =     4. 메인 메뉴로 돌아가기                          =");
+            System.out.println("   =                                                   =");
+            System.out.println("   =====================================================");
+            System.out.print("   선택: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch(choice) {
+                case 1:
+                    System.out.println("\n   =====================================================");
+                    System.out.println("   =                  즐겨찾기 목록                      =");
+                    System.out.println("   =====================================================");
+                    favoriteManager.viewCart(userId);
+                    System.out.println("   =====================================================");
+                    break;
+                case 2:
+                    System.out.print("\n   추가할 도서 ID를 입력하세요: ");
+                    String addBookId = scanner.nextLine();
+                    favoriteManager.addBook(userId, addBookId);
+                    break;
+                case 3:
+                    System.out.print("\n   삭제할 도서 ID를 입력하세요: ");
+                    String removeBookId = scanner.nextLine();
+                    favoriteManager.removeItem(userId, removeBookId);
+                    break;
+                case 4:
+                    return;
+                default:
+                    System.out.println("\n   잘못된 선택입니다. 다시 선택해주세요.");
+            }
+            System.out.println("\n   계속하려면 Enter를 누르세요...");
+            scanner.nextLine();
+        }
+    }
 }
+    
+    
+
