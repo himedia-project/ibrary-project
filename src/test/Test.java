@@ -1,5 +1,6 @@
+package test;
+
 import menumanager.MenuManager;
-import db.DBConnectionUtil;
 
 public class Test {
 
