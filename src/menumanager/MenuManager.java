@@ -99,10 +99,10 @@ public class MenuManager {
 					MyPage();
 					break;
 				case FAVORITES:
-//					Favorites();
 					favoriteManager.viewCart(UserManager.currentUserEmail);
 					break;
 				case LOGOUT:
+					user.logout();
 					System.out.println("로그아웃되었습니다.");
 					return;
 				default:
