@@ -24,7 +24,6 @@ public class UserRepository {
             pstmt.setString(2, password);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-//                    currentUserEmail = id;
                     return true;
                 }
                 return false;

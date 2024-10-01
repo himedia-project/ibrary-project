@@ -14,8 +14,8 @@ public class FavoriteManager {
 
     /**
      * 즐겨찾기에 추가
-     * @param userId
-     * @param bookId
+     * @param userId 사용자 아이디
+     * @param bookId 책 아이디
      */
     public void addBook(String userId, String bookId) {
 
@@ -26,8 +26,8 @@ public class FavoriteManager {
 
     /**
      * 즐겨찾기에서 삭제
-     * @param userId
-     * @param bookId
+     * @param userId 사용자 아이디
+     * @param bookId 책 아이디
      */
     public void removeItem(String userId, String bookId) {
 
@@ -37,7 +37,7 @@ public class FavoriteManager {
 
     /**
      * 즐겨찾기 리스트 보기
-     * @param userId
+     * @param userId 사용자 아이디
      */
     public void viewCart(String userId) {
         // TODO: 즐겨찾기 북리스트 보기
