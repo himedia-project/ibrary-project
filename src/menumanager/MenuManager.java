@@ -1,6 +1,7 @@
 package menumanager;
 import java.util.Scanner;
 import db.DBConnectionUtil;
+import favorite.FavoriteManager;
 import user.UserManager;
 import book.BookManager;
 import book.CategoryManager;
@@ -22,8 +23,13 @@ public class MenuManager {
     private DBConnectionUtil db = new DBConnectionUtil();
     private BookManager bookmanager = new BookManager();
     private CategoryManager categorymanager = new CategoryManager();
+<<<<<<< HEAD
+=======
+	private FavoriteManager favoriteManager = null;
+>>>>>>> 700d95a6c27731fdce5dd65ddf182ff6ba78421b
     
     public MenuManager() {
+		favoriteManager = new FavoriteManager();
     }
 
     public void initMenu(){
@@ -96,9 +102,11 @@ public class MenuManager {
 					MyPage();
 					break;
 				case FAVORITES:
-//					Favorites();
+					// TODO : 화면상 입력 로직 추가하기
+					favoriteManager.viewCart(UserManager.currentUserEmail);
 					break;
 				case LOGOUT:
+					user.logout();
 					System.out.println("로그아웃되었습니다.");
 					return;
 				default:
@@ -133,10 +141,10 @@ public class MenuManager {
 			
 			switch(choice) {
 				case USER_INFO:
-					user.UserInformation();
+					user.showUserInfo();
 					break;
 				case SHOW_LENTLIST:
-					user.ShowRentList();
+					user.showRentList();
 					break;
 				case MAINMENU:
 					return;

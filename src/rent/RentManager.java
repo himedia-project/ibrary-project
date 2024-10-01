@@ -2,6 +2,7 @@ package rent;
 
 
 import java.sql.Connection;
+<<<<<<< HEAD
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -88,4 +89,51 @@ public class RentManager {
     }
     
     
+=======
+
+import static db.DBConnectionUtil.*;
+
+public class RentManager {
+
+    private RentRepository rentRepository = null;
+
+    public RentManager() {
+        rentRepository = new RentRepository();
+    }
+
+
+    /**
+     * 렌트하기
+     * 트랜잭션 처리
+     * @param bookId
+     * @param userId
+     */
+    public void saveAndUpdateRent(String bookId, String userId) {
+        Connection conn = null;
+        try {
+            conn = getDBConnect();
+            // 트랜잭션 시작
+            conn.setAutoCommit(false);
+            insertAndUpdateRent(conn, bookId, userId);
+            conn.commit();  // 성공시 커밋
+        } catch (Exception e) {
+                // 실패시 롤백
+            try {
+                conn.rollback();
+            } catch (Exception rollbackException) {
+                rollbackException.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            close(conn, null, null);
+        }
+    }
+
+    public void insertAndUpdateRent(Connection conn, String bookId, String userId){
+        rentRepository.insertRent(conn, bookId, userId);
+        rentRepository.updateRented(conn, bookId);
+        System.out.println("책이 성공적으로 대출되었습니다.");
+    }
+
+>>>>>>> 700d95a6c27731fdce5dd65ddf182ff6ba78421b
 }
