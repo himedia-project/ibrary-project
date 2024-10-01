@@ -207,7 +207,13 @@ public class BookManager {
             int selectnumber = 0;
 
             while (true) {
-                System.out.println("검색 옵션을 선택하세요 (1: 타이틀, 2: 지은이, 3: 출판사, 4: 카테고리, 0: 메인화면): ");
+        		System.out.println("<< 북 검색 메뉴 >>"); 
+        		System.out.println("1. 타이틀");
+        		System.out.println("2. 지은이");
+        		System.out.println("3. 출판사");
+        		System.out.println("4. 카테고리");
+        		System.out.println("0. 메인화면");
+        		System.out.print("선택: ");
                 selectnumber = scan.nextInt();
                 scan.nextLine(); // 개행 문자 제거
 
@@ -314,7 +320,6 @@ public class BookManager {
                     RentManager rentManager = new RentManager();
                     rentManager.initDBConnect(); // DB 연결 초기화
                     rentManager.insertRent(bookId, userId);
-                    rentManager.releaseDB(); // DB 연결 종료
                   
                     break;
                 case 2:
@@ -330,13 +335,4 @@ public class BookManager {
         }
     }
 
-    public void closeConnection() {
-        try {
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
