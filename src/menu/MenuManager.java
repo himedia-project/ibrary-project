@@ -1,4 +1,4 @@
-package menumanager;
+package menu;
 
 import book.BookManager;
 import book.CategoryManager;

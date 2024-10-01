@@ -2,7 +2,7 @@ package user;
 
 import address.Address;
 import address.AddressManager;
-import menumanager.MenuManager;
+import menu.MenuManager;
 import rent.Rent;
 import rent.RentRepository;
 
