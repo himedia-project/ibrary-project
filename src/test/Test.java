@@ -1,4 +1,5 @@
-import menumanager.MenuManager;
+package test;
+import menumanager.*;
 import db.DBConnectionUtil;
 
 public class Test {
@@ -12,3 +13,4 @@ public class Test {
 	}
 
 }
+

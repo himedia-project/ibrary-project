@@ -2,6 +2,8 @@ package menumanager;
 import java.util.Scanner;
 import db.DBConnectionUtil;
 import user.UserManager;
+import book.BookManager;
+import book.CategoryManager;
 
 public class MenuManager {
 
@@ -18,6 +20,8 @@ public class MenuManager {
     private Scanner scanner = new Scanner(System.in);
     private UserManager user = new UserManager();
     private DBConnectionUtil db = new DBConnectionUtil();
+    private BookManager bookmanager = new BookManager();
+    private CategoryManager categorymanager = new CategoryManager();
     
     public MenuManager() {
     }
@@ -74,6 +78,7 @@ public class MenuManager {
             System.out.println("=   |___| |_.__/|_|  \\__,_|_|   \\__, | =");
             System.out.println("=                               |___/  =");
             System.out.println("=======================================");
+//            categorymanager.displayBookList();
             System.out.println("<< 도서 대여 관리 프로그램 >>");
             System.out.println("1. 도서 검색");
             System.out.println("2. 유저");
@@ -85,7 +90,7 @@ public class MenuManager {
 			
 			switch(choice) {
 				case BOOK_SEARCH:
-//					booksearch();
+					bookmanager.searchBooks();
 					break;
 				case USER_SEARCH:
 					MyPage();
