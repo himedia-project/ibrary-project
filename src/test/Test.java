@@ -1,6 +1,6 @@
 package test;
-
-import menumanager.MenuManager;
+import menumanager.*;
+import db.DBConnectionUtil;
 
 public class Test {
 
@@ -13,3 +13,4 @@ public class Test {
 	}
 
 }
+
