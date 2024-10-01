@@ -14,10 +14,6 @@ public class RentRepository {
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
 
-    public void updateRented() {
-
-    }
-
     //	rentlist 렌트 리스트 메서드
     public List<Rent> rentListByUserId(String userId) { //렌트 리스트 만드는 메서드
         List<Rent> rentList = new ArrayList<>();
@@ -46,16 +42,14 @@ public class RentRepository {
     }
 
     // 책 대출
-    public void insertRent(String bookId, String userId) {
+    public void insertRent(Connection conn, String bookId, String userId) {
         String rentSql = "INSERT INTO rent VALUES (null, ?, ?, ?, ?)";
-//        String updateBookSql = "UPDATE book SET rented = ? WHERE id = ?";
 
         // 현재 날짜 및 반납 기한 자동 계산
         LocalDate today = LocalDate.now();
         LocalDate returnDate = today.plusWeeks(1);
 
         try {
-            conn = getDBConnect();
             // rent 테이블에 대출 정보 추가
             pstmt = conn.prepareStatement(rentSql);
             pstmt.setString(1, bookId);
@@ -64,14 +58,22 @@ public class RentRepository {
             pstmt.setDate(4, Date.valueOf(returnDate)); // 반납 기한 (1주일 뒤)
             pstmt.executeUpdate();
 
-            // book 테이블에서 해당 책의 상태를 rented = true로 업데이트
-//            pstmt = conn.prepareStatement(updateBookSql);
-//            pstmt.setBoolean(1, true);
-//            pstmt.setString(2, bookId);
-//            pstmt.executeUpdate();
-
             // 반납 기한 출력
             System.out.println("반납 예정 날짜: " + returnDate);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+    public void updateRented(Connection conn, String bookId, String userId) {
+        String sql = "update book set rented = true where book_id = ? and user_id = ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, bookId);
+            pstmt.setString(2, userId);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
