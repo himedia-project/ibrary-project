@@ -2,12 +2,6 @@ package rent;
 
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.LocalDate;	
-import user.UserManager;
 
 import static db.DBConnectionUtil.*;
 
@@ -20,19 +14,13 @@ public class RentManager {
     }
 
 
-    public void insertAndUpdateRent(Connection conn, String bookId, String userId){
-        rentRepository.insertRent(conn, bookId, userId);
-        rentRepository.updateRented(conn, bookId, userId);
-        System.out.println("책이 성공적으로 대출되었습니다.");
-    }
-
     /**
      * 렌트하기
      * 트랜잭션 처리
      * @param bookId
      * @param userId
      */
-    public void insertAndUpdateRent(String bookId, String userId) {
+    public void saveAndUpdateRent(String bookId, String userId) {
         Connection conn = null;
         try {
             conn = getDBConnect();
@@ -51,6 +39,12 @@ public class RentManager {
         } finally {
             close(conn, null, null);
         }
+    }
+
+    public void insertAndUpdateRent(Connection conn, String bookId, String userId){
+        rentRepository.insertRent(conn, bookId, userId);
+        rentRepository.updateRented(conn, bookId);
+        System.out.println("책이 성공적으로 대출되었습니다.");
     }
 
 }

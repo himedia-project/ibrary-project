@@ -145,13 +145,9 @@ public class BookManager {
 			case 1:
 				String userId = UserManager.currentUserEmail;
 				String bookId = this.selectedId; // 현재 로그인한 사용자 ID 가져오기
-				System.out.println("userid :" + userId);
-				System.out.println("bookid :" + bookId);
-//				RentManager rentManager = new RentManager();
-//				rentManager.initDBConnect(); // DB 연결 초기화
-//				rentManager.insertRent(bookId, userId);
-//				rentManager.releaseDB(); // DB 연결 종료
-				rentManager.insertAndUpdateRent(bookId, userId);
+				System.out.println("userId :" + userId);
+				System.out.println("bookId :" + bookId);
+				rentManager.saveAndUpdateRent(bookId, userId);
 				
 
 				break;
@@ -160,10 +156,6 @@ public class BookManager {
 				String bookId2 = this.selectedId;
 				System.out.println("userid :" + userId2);
 				System.out.println("bookid :" + bookId2);
-//               FavoriteDbmanager fdbmanagaer = new FavoriteDbmanager();
-//               fdbmanagaer.initDBConnect();
-//               fdbmanagaer.inputFavorite(userId2, bookId2);
-//               fdbmanagaer.releaseDB();
 				favoriteManager.addBook(userId2, bookId2);
 
 				System.out.println("즐겨찾기에 추가하기 기능이 실행되었습니다. ISBN: " + selectedId);

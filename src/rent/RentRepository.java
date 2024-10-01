@@ -62,22 +62,18 @@ public class RentRepository {
             System.out.println("반납 예정 날짜: " + returnDate);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            close(conn, pstmt, rs);
         }
     }
 
-    public void updateRented(Connection conn, String bookId, String userId) {
-        String sql = "update book set rented = true where book_id = ? and user_id = ?";
+    public void updateRented(Connection conn, String bookId) {
+        String sql = "update book set rented = true where id = ?";
         try {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, bookId);
-            pstmt.setString(2, userId);
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            close(conn, pstmt, rs);
         }
     }
 
