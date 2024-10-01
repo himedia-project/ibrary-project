@@ -1,18 +1,16 @@
 package user;
 
-
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 public class User {
 
     private String id;
     private String password;
     private String name;
-
     private String phone;
-
     private Long addressId;
-
     private Date birthDate;
 
     private boolean loginState = false;
