@@ -1,10 +1,5 @@
 package book;
 
-import db.DBConnectionUtil;
-import favorite.FavoriteManager;
-import rent.RentManager;
-import user.UserManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import db.DBConnectionUtil;
+import favorite.FavoriteManager;
+import rent.RentManager;
+import user.UserManager;
 
 public class BookManager {
 
@@ -148,7 +148,6 @@ public class BookManager {
 				System.out.println("userId :" + userId);
 				System.out.println("bookId :" + bookId);
 				rentManager.saveAndUpdateRent(bookId, userId);
-				
 
 				break;
 			case 2:
