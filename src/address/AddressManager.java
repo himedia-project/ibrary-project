@@ -26,21 +26,21 @@ public class AddressManager {
      */
     public Address registAddress() {
 			while(true) {
-				System.out.print("주소 (도/특별시/광역시, 시/군/구, 읍/면/동): ");
+				System.out.print("   주소 (도/특별시/광역시, 시/군/구, 읍/면/동): ");
 				String addr1 = scanner.nextLine();
-				System.out.print("상세 주소 (동/층/호수): ");
+				System.out.print("   상세 주소 (동/층/호수): ");
 				String addr2 = scanner.nextLine();
-				System.out.print("우편번호 :");
+				System.out.print("   우편번호 (5자리 우편번호):");
 				int zip_code = scanner.nextInt();
 				scanner.nextLine();
 				
 				Address address = new Address(0,addr1,addr2,zip_code);
 				int addressId = registAddress(address);
                 if(addressId != -1) {
-                	System.out.println("주소가 성공적으로 등록되었습니다.");
+                	System.out.println("   주소가 성공적으로 등록되었습니다.");
                     return address;
                 } else {
-                    System.out.println("주소를 잘못 입력했습니다. 다시 입력해주세요.");
+                    System.out.println("   주소를 잘못 입력했습니다. 다시 입력해주세요.");
                 }
 			}		
     }

@@ -8,12 +8,17 @@ import static db.DBConnectionUtil.close;
 import static db.DBConnectionUtil.getDBConnect;
 
 public class UserRepository {
-
+	
     private Connection conn = null;
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
 
-
+    /**
+     * 로그인 정보 확인 메서드
+     * @param id
+     * @param password
+     * @return id,pw를 제대로 입력했다면 true, 잘못 들어갔으면 false
+     */
     public boolean login(String id, String password) {
         String sql = "SELECT * FROM user WHERE id = ? AND password = ?";
 
@@ -35,7 +40,7 @@ public class UserRepository {
             close(conn, pstmt, rs);
         }
     }
-
+    
     public int findCountUserById(String userId) {
         String sql = "select count(*) from user where id = ?";
         try {
@@ -54,6 +59,11 @@ public class UserRepository {
         return 0;
     }
 
+    /**
+     * 유저 정보를 DB에 제대로 집어넣는지 확인하는 메서드
+     * @param user
+     * @return	제대로 넣었으면 true, 아니면 false
+     */
     public boolean saveUser(User user) {
         String sql = "insert into user (id, name, password, phone, address_id, birth_date) values (?, ?, ?, ?, ?, ?)";
         try {
@@ -75,6 +85,11 @@ public class UserRepository {
         }
     }
 
+    /**
+     * DB에 있는 유저의 렌트 정보를 리스트에 저장하는 메서드
+     * @param userId
+     * @return true면 리스트에 add, false면 오류발생
+     */
     List<User> findUserListById(String userId) {
         String sql = "select u.id, u.name, u.phone, u.birth_date, a.addr1, a.addr2, a.zip_code \r\n"
                 + "from user u\r\n"
