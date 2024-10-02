@@ -5,11 +5,10 @@ import address.AddressManager;
 import menu.MenuManager;
 import rent.Rent;
 import rent.RentRepository;
-
-import java.sql.Date;
+import java.sql.*;
 import java.util.List;
 import java.util.Scanner;
-
+import static db.DBConnectionUtil.*;
 
 public class UserManager {
     public static String currentUserEmail = null;
@@ -17,19 +16,16 @@ public class UserManager {
 
     private UserRepository userRepository = null;
     private RentRepository rentRepository = null;
-
+    
+    private Connection conn = null;
+    private PreparedStatement pstmt = null;
+    private ResultSet rs = null;
+    
     public UserManager() {
         userRepository = new UserRepository();
         rentRepository = new RentRepository();
     }
 
-<<<<<<< HEAD
-	/**
-	 * 로그인을 실행시키기 위한 메서드
-	 * @return
-	 */
-=======
->>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
 
     /**
      * 로그인 메서드
@@ -55,31 +51,6 @@ public class UserManager {
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * db에 있는 id,password가 일치하는지 확인하는 메서드
-     * @param id
-     * @param password
-     * @return
-     */
-    
-    public boolean loginProcess(String id, String password) {
-        String sql = "SELECT * FROM user WHERE id = ? AND password = ?";
-=======
->>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
-
-    /**
-     * 중복된 아이디가 있는지 확인하는 메서드
-     *
-     * @param id 중복을 확인할 아이디
-     * @return 중복된 아이디가 있으면 true, 없으면 false
-     */
-    public boolean isIdDuplicate(String id) { // 중복값 체크 메서드
-        return userRepository.findCountUserById(id) > 0;
-
-    }
-
-<<<<<<< HEAD
 //  register 회원가입 메서드
     
     /**
@@ -132,22 +103,13 @@ public class UserManager {
         } finally {
             close(conn, pstmt, rs);
         }
-=======
+    }
     /**
      * 회원가입 메서드
      *
      * @param user 회원가입할 유저 정보
      * @return 회원가입 성공하면 true, 실패하면 false
-     */
-    public boolean registerUser(User user) { // 적절히 값을 넣었는지 확인하는 메서드
-        return userRepository.saveUser(user);
->>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
-    }
-
-    /**
-     *  회원가입 메서드
-     */
-    
+     */    
     public void registerUser() { 
         AddressManager addressManager = new AddressManager();
         while (true) {
@@ -203,20 +165,12 @@ public class UserManager {
         }
     }
 
-<<<<<<< HEAD
-    /**
-     * 유저정보 출력하는 메서드
-     */
 
-    public void showUserInfo() { 
-=======
 
     /**
      * 유저 정보 출력 메서드
      */
     public void showUserInfo() {
->>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
-
         for (User user : userRepository.findUserListById(currentUserEmail)) {
             System.out.println("===== 마이페이지 =====");
             System.out.println("이메일: " + user.getId());
@@ -228,17 +182,8 @@ public class UserManager {
         }
     }
 
-    /**
-<<<<<<< HEAD
-     * 렌트 리스트 보여주는 메서드
-     */
-    
-    public void showRentList() { 
-=======
-     * 대여한 책 리스트 출력 메서드
-     */
+
     public void showRentList() {
->>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
         List<Rent> rentList = this.rentRepository.rentListByUserId(currentUserEmail);
         if (rentList.isEmpty()) {
             System.out.println("대여한 책이 없습니다.");
