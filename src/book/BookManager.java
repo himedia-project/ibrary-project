@@ -188,7 +188,7 @@ import rent.RentManager;
 import db.DBConnectionUtil;
 
 import favorite.FavoriteManager;
-import menumanager.MenuManager;
+import menu.MenuManager;
 import user.UserManager;
 
 public class BookManager {
@@ -286,7 +286,7 @@ public class BookManager {
 			sql += "c.name LIKE CONCAT('%', ?, '%')";
 			break;
 		default:
-			System.out.println("잘못된 검색 옵션입니다.");
+			System.out.println("   잘못된 검색 옵션입니다.");
 			return;
 		}
 
@@ -312,18 +312,18 @@ public class BookManager {
 			}
 
 			if (results.isEmpty()) {
-				System.out.println("일치하는 항목이 없습니다.");
+				System.out.println("   일치하는 항목이 없습니다.");
 			} else {
-				System.out.println("원하는 항목의 번호를 선택하세요: ");
+				System.out.println("   원하는 항목의 번호를 선택하세요: ");
 				int choice = scan.nextInt();
 				scan.nextLine(); // 개행 문자 제거
 
 				if (choice > 0 && choice <= results.size()) {
 					selectedId = results.get(choice - 1); // 선택한 ISBN을 selectedId에 저장
-					System.out.println("선택한 ISBN: " + selectedId);
+					System.out.println("   선택한 ISBN: " + selectedId);
 					showOptions(selectedId);
 				} else {
-					System.out.println("잘못된 선택입니다.");
+					System.out.println("   잘못된 선택입니다.");
 				}
 			}
 		} catch (SQLException e) {
