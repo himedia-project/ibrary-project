@@ -16,10 +16,17 @@ public class RentManager {
 
     /**
      * (트랜잭션 처리)렌트하기
-     * @param bookId  대출할 책 아이디
-     * @param userId  대출할 유저 아이디
+     * @param bookId 대출할 책 아이디
+     * @param userId 대출할 유저 아이디
      */
     public void saveAndUpdateRent(String bookId, String userId) {
+
+        // 해당 bookId, userId rent 중복 체크
+        if (rentRepository.findRentByBookIdAndUserId(bookId, userId)) {
+            System.out.println("이미 대여한 책입니다.");
+            return;
+        }
+
         Connection conn = null;
         try {
             conn = getDBConnect();
@@ -28,7 +35,7 @@ public class RentManager {
             this.insertAndUpdateRent(conn, bookId, userId);
             conn.commit();  // 성공시 커밋
         } catch (Exception e) {
-                // 실패시 롤백
+            // 실패시 롤백
             try {
                 conn.rollback();
             } catch (Exception rollbackException) {
