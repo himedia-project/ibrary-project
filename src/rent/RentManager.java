@@ -2,12 +2,6 @@ package rent;
 
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.LocalDate;	
-import user.UserManager;
 
 import static db.DBConnectionUtil.*;
 
@@ -64,4 +58,5 @@ public class RentManager {
         rentRepository.updateRented(conn, bookId);
         System.out.println("책이 성공적으로 대출되었습니다.");
     }
+
 }

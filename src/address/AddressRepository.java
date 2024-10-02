@@ -10,12 +10,7 @@ public class AddressRepository {
     private PreparedStatement pstmt = null;
     private ResultSet rs = null;
 
-    /**
-     * DB에 있는 address에 정보를 집어 넣는 메서드 
-     * @param address
-     * @return 정보를 제대로 입력 하였다면 ai값이 입력됨, 잘못 넣었으면 -1
-     */
-    
+
     public int insertAddress(Address address) {
         String sql = "insert into address (id,addr1, addr2, zip_code) values (null,?, ?, ?)";
         try {
