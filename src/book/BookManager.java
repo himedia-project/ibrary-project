@@ -1,10 +1,5 @@
 package book;
 
-import db.DBConnectionUtil;
-import favorite.FavoriteManager;
-import rent.RentManager;
-import user.UserManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import db.DBConnectionUtil;
+import favorite.FavoriteManager;
+import rent.RentManager;
+import user.UserManager;
 
 public class BookManager {
 
@@ -26,11 +26,12 @@ public class BookManager {
 
 	public BookManager() {
 		scan = new Scanner(System.in);
-		conn = DBConnectionUtil.getDBConnect(); // DB 연결 초기화
+		conn = DBConnectionUtil.getDBConnect();
 		favoriteManager = new FavoriteManager();
 		rentManager = new RentManager();
 	}
 
+//----------------------------북 검색 메뉴
 	public void searchBooks() {
 		while (true) {
 			int selectnumber = 0;
@@ -61,11 +62,11 @@ public class BookManager {
 			System.out.println("검색어를 입력하세요: ");
 			String searchTerm = scan.nextLine(); // 변수 선언
 
-			// 검색 메서드 호출
 			executeSearch(selectnumber, searchTerm);
 		}
 	}
 
+//----------------------------검색 키워드 입력 및 검색 프로세스
 	private void executeSearch(int selectn, String searchTerm) {
 		String sql = "SELECT b.id, b.title, b.writer, b.publisher, c.name AS 카테고리, "
 				+ "CASE WHEN b.rented = 0 THEN '대여 가능' ELSE '대여 불가능' END AS '대여 여부' "
@@ -132,6 +133,7 @@ public class BookManager {
 		}
 	}
 
+//----------------------------걷색 완료후 선택된 책 추가작업
 	private void showOptions(String selectedId) {
 		while (true) {
 			System.out.println("1. 대여하기");
@@ -147,25 +149,14 @@ public class BookManager {
 				String bookId = this.selectedId; // 현재 로그인한 사용자 ID 가져오기
 				System.out.println("userid :" + userId);
 				System.out.println("bookid :" + bookId);
-//				RentManager rentManager = new RentManager();
-//				rentManager.initDBConnect(); // DB 연결 초기화
-//				rentManager.insertRent(bookId, userId);
-//				rentManager.releaseDB(); // DB 연결 종료
 				rentManager.insertAndUpdateRent(bookId, userId);
-				
-
 				break;
 			case 2:
 				String userId2 = UserManager.currentUserEmail;
 				String bookId2 = this.selectedId;
 				System.out.println("userid :" + userId2);
 				System.out.println("bookid :" + bookId2);
-//               FavoriteDbmanager fdbmanagaer = new FavoriteDbmanager();
-//               fdbmanagaer.initDBConnect();
-//               fdbmanagaer.inputFavorite(userId2, bookId2);
-//               fdbmanagaer.releaseDB();
 				favoriteManager.addBook(userId2, bookId2);
-
 				System.out.println("즐겨찾기에 추가하기 기능이 실행되었습니다. ISBN: " + selectedId);
 				break;
 			case 3:
@@ -177,7 +168,8 @@ public class BookManager {
 		}
 	}
 
+//----------------------------DB연결 해제
 	public void closeConnection() {
-		DBConnectionUtil.close(conn, pstmt, null); // DB 연결 해제
+		DBConnectionUtil.close(conn, pstmt, null);
 	}
 }
