@@ -147,9 +147,9 @@ public class BookManager {
 			case 1:
 				String userId = UserManager.currentUserEmail;
 				String bookId = this.selectedId; // 현재 로그인한 사용자 ID 가져오기
-				System.out.println("userid :" + userId);
-				System.out.println("bookid :" + bookId);
-				rentManager.insertAndUpdateRent(bookId, userId);
+				System.out.println("userId :" + userId);
+				System.out.println("bookId :" + bookId);
+				rentManager.saveAndUpdateRent(bookId, userId);
 				break;
 			case 2:
 				String userId2 = UserManager.currentUserEmail;

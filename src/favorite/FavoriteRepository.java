@@ -37,11 +37,11 @@ public class FavoriteRepository {
         return recount;//쿼리 실행후 나온 결과값(정수형) 출력
     }
 
-    public List<Favorite> allFetch(String userId) { //객체의 배열
+    public List<String> findFavoriteBookIdListByUserId(String userId) { //객체의 배열
         //테이블의 총 레코드 수를 recount 변수에 정수형으로 저장한다
-        List<Favorite> favoriteList = new ArrayList<>();
+        List<String> bookIdList = new ArrayList<>();
         //FavoriteList 클래스 생성자를 recount 크기의 일차원 배열 생성
-        String sql = "select * from favorites where user_id = ? ";
+        String sql = "select f.book_id from favorites f where user_id = ? ";
         // sql = favorite 테이블의 레코드를 출력한 문자열
         try {
             conn = getDBConnect();
@@ -53,13 +53,8 @@ public class FavoriteRepository {
             while (rs.next()) { // 쿼리 실행 결과에 맞는 값을
                 //while문을 통해 반복하여 전부 각각의 위치에 넣어준다
 
-                Long id = rs.getLong("id");//() 안의 내용은 테이블의 행 이름
-                String userid = rs.getString("user_id");//각 행에 맞는 값을 변수에 저장
-                String bookid = rs.getString("book_id");
-                //아아ㄷ; 입력에 따라 다른 책 코드 출력하게 만들디
-                Favorite favorite = new Favorite(id, userid, bookid);
-                // 위에 만든배열에 저장할 객체 생성 ,배열의 갯수 증가
-                favoriteList.add(favorite);
+                String bookId = rs.getString("book_id");
+                bookIdList.add(bookId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +62,7 @@ public class FavoriteRepository {
         } finally {
             close(conn, pstmt, rs);
         }
-        return favoriteList; //배열 출력
+        return bookIdList; //배열 출력
     }
 
 

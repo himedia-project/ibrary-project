@@ -5,7 +5,7 @@ import java.sql.*;
 public class DBConnectionUtil {
 
     private static final String driver = "com.mysql.cj.jdbc.Driver";
-    private static final String url = "jdbc:mysql://127.0.0.1:3306/ibrary?serverTimeZone=UTC";
+    private static final String url = "jdbc:mysql://127.0.0.1:3306/ibrary?serverTimeZone=UTC?autoReconnect=true&validationQuery=select 1";
     private static final String id = "root";
     private static final String pw = "1234";
 

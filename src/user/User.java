@@ -15,12 +15,27 @@ public class User {
 
     private boolean loginState = false;
 
+    private String addr1;
+    private String addr2;
+    private String zipcode;
+
     public User(String id, String password, String name, String phone, Long addressId, Date birthDate) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.phone = phone;
         this.addressId = addressId;
+        this.birthDate = birthDate;
+    }
+
+
+    public User(String id, String name, String phone, String addr1, String addr2, String zipcode, Date birthDate) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.addr1 = addr1;
+        this.addr2 = addr2;
+        this.zipcode = zipcode;
         this.birthDate = birthDate;
     }
 
@@ -62,6 +77,18 @@ public class User {
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
+    }
+
+    public String getAddr1() {
+        return addr1;
+    }
+
+    public String getAddr2() {
+        return addr2;
+    }
+
+    public String getZipcode() {
+        return zipcode;
     }
 
     public Date getBirthDate() {

@@ -1,9 +1,11 @@
-package menumanager;
-import java.util.Scanner;
-import db.DBConnectionUtil;
-import user.UserManager;
+package menu;
+
 import book.BookManager;
 import book.CategoryManager;
+import favorite.FavoriteManager;
+import user.UserManager;
+
+import java.util.Scanner;
 
 public class MenuManager {
 
@@ -18,12 +20,17 @@ public class MenuManager {
     public final static int SHOW_LENTLIST = 2;
     public final static int MAINMENU = 3;
     private Scanner scanner = new Scanner(System.in);
-    private UserManager user = new UserManager();
-    private DBConnectionUtil db = new DBConnectionUtil();
-    private BookManager bookmanager = new BookManager();
-    private CategoryManager categorymanager = new CategoryManager();
+
+	private UserManager userManager = null;
+	private BookManager bookmanager = null;
+	private CategoryManager categorymanager = null;
+	private FavoriteManager favoriteManager = null;
     
     public MenuManager() {
+		userManager = new UserManager();
+		bookmanager = new BookManager();
+		categorymanager = new CategoryManager();
+		favoriteManager = new FavoriteManager();
     }
 
     public void initMenu(){
@@ -44,8 +51,7 @@ public class MenuManager {
         scanner.nextLine();  // 사용자가 엔터를 누를 때까지 대기
         
     	while(true) {
-    		db.getDBConnect();
-    		System.out.println("<< 도서 대여관리 프로그램 >>"); 
+    		System.out.println("<< 도서 대여관리 프로그램 >>");
     		System.out.println("1. 회원가입");
     		System.out.println("2. 로그인");
     		System.out.println("3. 종료");
@@ -55,10 +61,10 @@ public class MenuManager {
     		
     		switch(choice){
     			case REGIST:
-    				user.registerUser();
+    				userManager.registerUser();
     				break;
     			case LOGIN:
-    				user.loginProcess();
+    				userManager.loginProcess();
     				break;
     			case EXIT:
     				System.out.println("프로그램을 종료합니다.");
@@ -93,12 +99,13 @@ public class MenuManager {
 					bookmanager.searchBooks();
 					break;
 				case USER_SEARCH:
-					MyPage();
+					myPage();
 					break;
 				case FAVORITES:
-//					Favorites();
+					favoriteManager.searchBooks(UserManager.currentUserEmail);
 					break;
 				case LOGOUT:
+					userManager.logout();
 					System.out.println("로그아웃되었습니다.");
 					return;
 				default:
@@ -107,7 +114,7 @@ public class MenuManager {
 		}
 	}
 
-	public void MyPage() { 
+	public void myPage() {
 
 		while(true) {
 	        System.out.println("\n\n");
@@ -133,10 +140,10 @@ public class MenuManager {
 			
 			switch(choice) {
 				case USER_INFO:
-					user.showUserInfo();
+					userManager.showUserInfo();
 					break;
 				case SHOW_LENTLIST:
-					user.showRentList();
+					userManager.showRentList();
 					break;
 				case MAINMENU:
 					return;

@@ -2,12 +2,6 @@ package rent;
 
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.LocalDate;	
-import user.UserManager;
 
 import static db.DBConnectionUtil.*;
 
@@ -20,28 +14,28 @@ public class RentManager {
     }
 
 
-    public void insertAndUpdateRent(Connection conn, String bookId, String userId){
-        rentRepository.insertRent(conn, bookId, userId);
-        rentRepository.updateRented(conn, bookId, userId);
-        System.out.println("책이 성공적으로 대출되었습니다.");
-    }
-
     /**
-     * 렌트하기
-     * 트랜잭션 처리
-     * @param bookId
-     * @param userId
+     * (트랜잭션 처리)렌트하기
+     * @param bookId 대출할 책 아이디
+     * @param userId 대출할 유저 아이디
      */
-    public void insertAndUpdateRent(String bookId, String userId) {
+    public void saveAndUpdateRent(String bookId, String userId) {
+
+        // 해당 bookId, userId rent 중복 체크
+        if (rentRepository.findRentByBookIdAndUserId(bookId, userId)) {
+            System.out.println("이미 대여한 책입니다.");
+            return;
+        }
+
         Connection conn = null;
         try {
             conn = getDBConnect();
             // 트랜잭션 시작
             conn.setAutoCommit(false);
-            insertAndUpdateRent(conn, bookId, userId);
+            this.insertAndUpdateRent(conn, bookId, userId);
             conn.commit();  // 성공시 커밋
         } catch (Exception e) {
-                // 실패시 롤백
+            // 실패시 롤백
             try {
                 conn.rollback();
             } catch (Exception rollbackException) {
@@ -51,6 +45,18 @@ public class RentManager {
         } finally {
             close(conn, null, null);
         }
+    }
+
+    /**
+     * 렌트하기
+     * @param conn Transaction 처리한 Connection 객체
+     * @param bookId 대출할 책 아이디
+     * @param userId 대출할 유저 아이디
+     */
+    private void insertAndUpdateRent(Connection conn, String bookId, String userId){
+        rentRepository.insertRent(conn, bookId, userId);
+        rentRepository.updateRented(conn, bookId);
+        System.out.println("책이 성공적으로 대출되었습니다.");
     }
 
 }
