@@ -129,7 +129,7 @@ public class BookManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			// PreparedStatement와 ResultSet은 여기서 close하지 않고, 필요할 때 close합니다.
+			// PreparedStatement와 ResultSet은 여기서 close하지 않고, 필요할 때 close합니다.!!!!!!!!!!!!!!!!!!!!!!
 		}
 	}
 
