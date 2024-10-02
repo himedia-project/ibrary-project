@@ -156,7 +156,7 @@ public class MenuManager {
 				case MAINMENU:
 					return;
 				default:
-					System.out.println("   잘못된 선택입니다.");
+					System.out.println("   잘못된 선택입니다. 다시 선택해주세요.");
 			}
 		}
 	}

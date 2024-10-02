@@ -72,7 +72,7 @@ public class FavoriteManager {
                     }
                     break;
                 case 2:
-                    if (!checkRentBookId(userId)) {
+                    if (!rentManager.checkRentBookId(userId)) {
                         rentManager.saveAndUpdateRent(selectedId, userId);
                     }
                     break;
@@ -80,7 +80,7 @@ public class FavoriteManager {
                     System.out.println("   검색 옵션으로 돌아갑니다.");
                     return;
                 default:
-                    System.out.println("   잘못된 선택입니다.");
+                    System.out.println("   잘못된 선택입니다. 다시 선택해주세요");
             }
         }
 
@@ -93,38 +93,16 @@ public class FavoriteManager {
      * @param userId 사용자 아이디
      * @return 책 아이디 체크 결과, 즐겨찾기에 없으면 false 있으면 true
      */
-    private boolean checkFavoritesBookId(String userId) {
+    public boolean checkFavoritesBookId(String userId) {
         Scanner scan = new Scanner(System.in);
-        List<Book> bookList = getFavoritesBookListByUserId(userId);
 
         System.out.print("   책 아이디를 입력하세요: ");
         selectedId = scan.nextLine();
-
-        if (bookList.stream().noneMatch(book -> book.getId().equals(selectedId))) {
-            System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다.");
+        if(countByUserIdAndBookId(userId, selectedId) >= 1) {
+            System.out.println("   해당 아이디의 책이 이미 즐겨찾기에 있습니다.");
             return true;
         }
         return false;
-    }
-
-
-    /**
-     * 대여한 책 아이디 체크
-     *
-     * @param userId 사용자 아이디
-     * @return 책 아이디 체크 결과, 이미 대여했으면 false 안했으면 true
-     */
-    private boolean checkRentBookId(String userId) {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("   책 아이디를 입력하세요: ");
-        selectedId = scan.nextLine();
-
-        if (rentRepository.findRentByBookIdAndUserId(selectedId, userId)) {
-            System.out.println("   이미 대여한 책입니다.");
-            return true;
-        }
-        return false;
-
     }
 
 
@@ -176,8 +154,7 @@ public class FavoriteManager {
     }
 
     /**
-     * 즐겨찾기에 추가된 책인지 확인
-     *
+     * 즐겨찾기에 추가된 책 리스트 가져오기
      * @param userId 사용자 아이디
      * @return 즐겨찾기에 추가된 책 리스트
      */
@@ -185,5 +162,16 @@ public class FavoriteManager {
         List<String> bookIdList = favoriteRepository.findFavoriteBookIdListByUserId(userId);
 
         return bookRepository.findBookListByIdList(bookIdList);
+    }
+
+    /**
+     * 즐겨찾기에 추가된 책 카운트
+     *
+     * @param userId 사용자 아이디
+     * @return 즐겨찾기에 추가된 책 카운트
+     */
+
+    public int countByUserIdAndBookId(String userId, String bookId) {
+        return favoriteRepository.countByUserIdAndBookId(userId, bookId);
     }
 }
