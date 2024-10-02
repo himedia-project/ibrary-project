@@ -21,12 +21,6 @@ public class RentManager {
      */
     public void saveAndUpdateRent(String bookId, String userId) {
 
-        // 해당 bookId, userId rent 중복 체크
-        if (rentRepository.findRentByBookIdAndUserId(bookId, userId)) {
-            System.out.println("   이미 대여한 책입니다.");
-            return;
-        }
-
         Connection conn = null;
         try {
             conn = getDBConnect();
