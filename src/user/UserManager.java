@@ -5,11 +5,10 @@ import address.AddressManager;
 import menu.MenuManager;
 import rent.Rent;
 import rent.RentRepository;
-
-import java.sql.Date;
+import java.sql.*;
 import java.util.List;
 import java.util.Scanner;
-
+import static db.DBConnectionUtil.*;
 
 public class UserManager {
     public static String currentUserEmail = null;
@@ -17,7 +16,11 @@ public class UserManager {
 
     private UserRepository userRepository = null;
     private RentRepository rentRepository = null;
-
+    
+    private Connection conn = null;
+    private PreparedStatement pstmt = null;
+    private ResultSet rs = null;
+    
     public UserManager() {
         userRepository = new UserRepository();
         rentRepository = new RentRepository();
@@ -48,29 +51,64 @@ public class UserManager {
         }
     }
 
-
+//  register 회원가입 메서드
+    
     /**
-     * 중복된 아이디가 있는지 확인하는 메서드
-     *
-     * @param id 중복을 확인할 아이디
-     * @return 중복된 아이디가 있으면 true, 없으면 false
+     * 중복값 체크 메서드
+     * @param id
+     * @return 로그인 성공하면 true, 실패하면 false
      */
-    public boolean isIdDuplicate(String id) { // 중복값 체크 메서드
-        return userRepository.findCountUserById(id) > 0;
-
+    public boolean isIdDuplicate(String id) { 
+        String sql = "select count(*) from user where id = ?";
+        try {
+            conn = getDBConnect();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println("오류 발생" + e.getMessage());
+        } finally {
+            close(conn, pstmt, rs);
+        }
+        return false;
     }
 
+    /**
+     * db에 적절한 값을 넣었는지 확인하기 위한 메서드
+     * @param user
+     * @return 적절한 값을 넣으면 true 잘못 넣었으면 false
+     */
+
+    public boolean registerUser(User user) { 
+        String sql = "insert into user (id, name, password, phone, address_id, birth_date) values (?, ?, ?, ?, ?, ?)";
+        try {
+            conn = getDBConnect();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, user.getId());
+            pstmt.setString(2, user.getName());
+            pstmt.setString(3, user.getPassword());
+            pstmt.setString(4, user.getPhone());
+            pstmt.setLong(5, user.getAddressId());
+            pstmt.setDate(6, user.getBirthDate());
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("사용자 등록 중 오류가 발생했습니다: " + e.getMessage());
+            return false;
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
     /**
      * 회원가입 메서드
      *
      * @param user 회원가입할 유저 정보
      * @return 회원가입 성공하면 true, 실패하면 false
-     */
-    public boolean registerUser(User user) { // 적절히 값을 넣었는지 확인하는 메서드
-        return userRepository.saveUser(user);
-    }
-
-    public void registerUser() { // 회원가입 메서드
+     */    
+    public void registerUser() { 
         AddressManager addressManager = new AddressManager();
         while (true) {
             try {
@@ -93,7 +131,11 @@ public class UserManager {
                 System.out.print("   이름: ");
                 String name = scanner.nextLine();
 
+<<<<<<< HEAD
                 System.out.print("   전화번호: ");
+=======
+                System.out.print("전화번호 (010xxxxxxxx or 010-xxxx-xxxx): ");
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
                 String phone = scanner.nextLine();
 
                 System.out.print("   생년월일 (YYYY-MM-DD): ");
@@ -126,6 +168,7 @@ public class UserManager {
     }
 
 
+
     /**
      * 유저 정보 출력 메서드
      */
@@ -142,6 +185,7 @@ public class UserManager {
             System.out.println("   =         ╚██████╔╝███████║███████╗██║  ██║             =");
             System.out.println("   =          ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝             =");
             System.out.println("   =                                                       =");
+<<<<<<< HEAD
             System.out.println("   =      이메일: " + padRight(user.getId(), 37) + "     =");
             System.out.println("   =      이름: " + padRight(user.getName(), 39) + "     =");
             System.out.println("   =      전화번호: " + padRight(user.getPhone(), 35) + "      =");
@@ -149,31 +193,130 @@ public class UserManager {
             System.out.println("   =      우편번호: " + padRight(user.getZipcode(), 35) + "      =");
             System.out.println("   =      생년월일: " + padRight(user.getBirthDate().toString(), 35) + "      =");
             System.out.println("   =                                                        =");
+=======
+            System.out.println("   =      이메일: " + padRight(user.getId(), 37) + "=");
+            System.out.println("   =      이름: " + padRight(user.getName(), 39) + "=");
+            System.out.println("   =      전화번호: " + padRight(user.getPhone(), 35) + "=");
+            System.out.println("   =      주소: " + padRight(user.getAddr1() + " " + user.getAddr2(), 39) + "=");
+            System.out.println("   =      우편번호: " + padRight(user.getZipcode(), 35) + "=");
+            System.out.println("   =      생년월일: " + padRight(user.getBirthDate().toString(), 35) + "=");
+            System.out.println("   =                                                   =");
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
             System.out.println("   ==========================================================");
         }
     }
 
     /**
-     * 대여한 책 리스트 출력 메서드
+     * 렌트 리스트 정보 출력 메서드
      */
     public void showRentList() {
         List<Rent> rentList = this.rentRepository.rentListByUserId(currentUserEmail);
         System.out.println("\n\n");
         System.out.println("   =====================================================");
+<<<<<<< HEAD
         System.out.println("   =                   대여 목록                          =");
+=======
+        System.out.println("   =                   대여 목록                        =");
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
         System.out.println("   =                                                   =");
         if (rentList.isEmpty()) {
             System.out.println("   =            대여한 책이 없습니다.                    =");
         } else {
             for (Rent rent : rentList) {
+<<<<<<< HEAD
                 System.out.println("   =  책 ID: " + padRight(rent.getBookId(), 37) + "     =");
                 System.out.println("   =  대여 시작일: " + padRight(rent.getStartDate().toString(), 32) + "      =");
                 System.out.println("   =  반납 예정일: " + padRight(rent.getEndDate().toString(), 32) + "      =");
+=======
+                System.out.println("   =  책 ID: " + padRight(rent.getBookId(), 37) + "=");
+                System.out.println("   =  대여 시작일: " + padRight(rent.getStartDate().toString(), 32) + "=");
+                System.out.println("   =  반납 예정일: " + padRight(rent.getEndDate().toString(), 32) + "=");
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
                 System.out.println("   =                                                   =");
             }
         }
         System.out.println("   =                                                   =");
         System.out.println("   =====================================================");
+<<<<<<< HEAD
+    }
+    
+    private String padRight(String s, int n) {
+        return String.format("%-" + n + "s", s);
+    }
+    
+    private void printLoginSuccessArt() {
+        System.out.println("\n");
+        System.out.println("   =============================================");
+        System.out.println("   =                                           =");
+        System.out.println("   =   ██╗      ██████╗  ██████╗ ██╗███╗   ██╗ =");
+        System.out.println("   =   ██║     ██╔═══██╗██╔════╝ ██║████╗  ██║ =");
+        System.out.println("   =   ██║     ██║   ██║██║  ███╗██║██╔██╗ ██║ =");
+        System.out.println("   =   ██║     ██║   ██║██║   ██║██║██║╚██╗██║ =");
+        System.out.println("   =   ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║ =");
+        System.out.println("   =   ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ =");
+        System.out.println("   =                                           =");
+        System.out.println("   =                로그인 성공!                  =");
+        System.out.println("   =         환영합니다, " + currentUserEmail + "님              =");
+        System.out.println("   =                                           =");
+        System.out.println("   =============================================");
+        System.out.println("\n");
+    }
+    
+    private void printLoginFailureArt() {
+        System.out.println("\n");
+        System.out.println("   ================================================");
+        System.out.println("   =                                               =");
+        System.out.println("   =   ███████╗ █████╗ ██╗██╗     ███████╗██████╗  =");
+        System.out.println("   =   ██╔════╝██╔══██╗██║██║     ██╔════╝██╔══██╗ =");
+        System.out.println("   =   █████╗  ███████║██║██║     █████╗  ██║  ██║ =");
+        System.out.println("   =   ██╔══╝  ██╔══██║██║██║     ██╔══╝  ██║  ██║ =");
+        System.out.println("   =   ██║     ██║  ██║██║███████╗███████╗██████╔╝ =");
+        System.out.println("   =   ╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝  =");
+        System.out.println("   =                                               =");
+        System.out.println("   =                     로그인 실패!                 =");
+        System.out.println("   =             이메일과 비밀번호를 확인해주세요.           =");
+        System.out.println("   =                                               =");
+        System.out.println("   ================================================");
+        System.out.println("\n");
+    }
+    
+    private void printRegistrationSuccessArt() {
+        System.out.println("\n");
+        System.out.println("   ====================================================================");
+        System.out.println("   =                                                                  =");
+        System.out.println("   =   ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗ =");
+        System.out.println("   =   ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝ =");
+        System.out.println("   =   ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗   =");
+        System.out.println("   =   ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝   =");
+        System.out.println("   =   ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗ =");
+        System.out.println("   =    ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝ =");
+        System.out.println("   =                                                                  =");
+        System.out.println("   =                              회원가입 성공!                          =");
+        System.out.println("   =                     환영합니다, \" + currentUserEmail + \"님         =");
+        System.out.println("   =                                                                  =");
+        System.out.println("   ====================================================================");
+        System.out.println("\n");
+    }
+    
+    private void printRegistrationFailureArt() {
+        System.out.println("\n");
+        System.out.println("   =================================================");
+        System.out.println("   =                                               =");
+        System.out.println("   =   ███████╗ █████╗ ██╗██╗     ███████╗██████╗  =");
+        System.out.println("   =   ██╔════╝██╔══██╗██║██║     ██╔════╝██╔══██╗ =");
+        System.out.println("   =   █████╗  ███████║██║██║     █████╗  ██║  ██║ =");
+        System.out.println("   =   ██╔══╝  ██╔══██║██║██║     ██╔══╝  ██║  ██║ =");
+        System.out.println("   =   ██║     ██║  ██║██║███████╗███████╗██████╔╝ =");
+        System.out.println("   =   ╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝  =");
+        System.out.println("   =                                               =");
+        System.out.println("   =                   회원가입 실패!                  =");
+        System.out.println("   =           다시 시도해주세요. 문제가 지속되면            =");
+        System.out.println("   =                 관리자에게 문의하세요.               =");
+        System.out.println("   =                                               =");
+        System.out.println("   =================================================");
+        System.out.println("\n");
+=======
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
     }
     
     private String padRight(String s, int n) {
@@ -252,7 +395,8 @@ public class UserManager {
         System.out.println("   =================================================");
         System.out.println("\n");
     }
-
+    
+    
     /**
      * 로그아웃 메서드
      */

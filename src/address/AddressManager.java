@@ -30,7 +30,11 @@ public class AddressManager {
 				String addr1 = scanner.nextLine();
 				System.out.print("   상세 주소 (동/층/호수): ");
 				String addr2 = scanner.nextLine();
+<<<<<<< HEAD
 				System.out.print("   우편번호 (5자리 우편번호):");
+=======
+				System.out.print("우편번호 (5자리 우편번호):");
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
 				int zip_code = scanner.nextInt();
 				scanner.nextLine();
 				

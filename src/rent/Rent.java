@@ -1,5 +1,7 @@
 package rent;
 
+import user.UserManager;
+import java.util.Scanner;
 import java.sql.Date;
 
 public class Rent {

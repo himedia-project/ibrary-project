@@ -19,6 +19,10 @@ public class UserRepository {
      * @param password
      * @return id,pw를 제대로 입력했다면 true, 잘못 들어갔으면 false
      */
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
     public boolean login(String id, String password) {
         String sql = "SELECT * FROM user WHERE id = ? AND password = ?";
 
@@ -40,6 +44,15 @@ public class UserRepository {
             close(conn, pstmt, rs);
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * 
+     * @param userId
+     * @return
+     */
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
     
     public int findCountUserById(String userId) {
         String sql = "select count(*) from user where id = ?";
@@ -64,6 +77,10 @@ public class UserRepository {
      * @param user
      * @return	제대로 넣었으면 true, 아니면 false
      */
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
     public boolean saveUser(User user) {
         String sql = "insert into user (id, name, password, phone, address_id, birth_date) values (?, ?, ?, ?, ?, ?)";
         try {
@@ -90,6 +107,10 @@ public class UserRepository {
      * @param userId
      * @return true면 리스트에 add, false면 오류발생
      */
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 1975e3398841df23c1342ef6bd0e3a3dbfdaf825
     List<User> findUserListById(String userId) {
         String sql = "select u.id, u.name, u.phone, u.birth_date, a.addr1, a.addr2, a.zip_code \r\n"
                 + "from user u\r\n"
