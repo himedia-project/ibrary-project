@@ -103,10 +103,9 @@ public class RentManager {
 
 
     /**
-     * 렌트하기
-     * 트랜잭션 처리
-     * @param bookId
-     * @param userId
+     * (트랜잭션 처리)렌트하기
+     * @param bookId  대출할 책 아이디
+     * @param userId  대출할 유저 아이디
      */
     public void saveAndUpdateRent(String bookId, String userId) {
         Connection conn = null;
@@ -114,7 +113,7 @@ public class RentManager {
             conn = getDBConnect();
             // 트랜잭션 시작
             conn.setAutoCommit(false);
-            insertAndUpdateRent(conn, bookId, userId);
+            this.insertAndUpdateRent(conn, bookId, userId);
             conn.commit();  // 성공시 커밋
         } catch (Exception e) {
                 // 실패시 롤백
@@ -129,7 +128,13 @@ public class RentManager {
         }
     }
 
-    public void insertAndUpdateRent(Connection conn, String bookId, String userId){
+    /**
+     * 렌트하기
+     * @param conn Transaction 처리한 Connection 객체
+     * @param bookId 대출할 책 아이디
+     * @param userId 대출할 유저 아이디
+     */
+    private void insertAndUpdateRent(Connection conn, String bookId, String userId){
         rentRepository.insertRent(conn, bookId, userId);
         rentRepository.updateRented(conn, bookId);
         System.out.println("책이 성공적으로 대출되었습니다.");

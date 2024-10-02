@@ -1,10 +1,11 @@
-package menumanager;
-import java.util.Scanner;
-import db.DBConnectionUtil;
-import favorite.FavoriteManager;
-import user.UserManager;
+package menu;
+
 import book.BookManager;
 import book.CategoryManager;
+import favorite.FavoriteManager;
+import user.UserManager;
+
+import java.util.Scanner;
 
 public class MenuManager {
 
@@ -19,16 +20,26 @@ public class MenuManager {
     public final static int SHOW_LENTLIST = 2;
     public final static int MAINMENU = 3;
     private Scanner scanner = new Scanner(System.in);
+<<<<<<< HEAD:src/menumanager/MenuManager.java
     private UserManager user = new UserManager();
     private DBConnectionUtil db = new DBConnectionUtil();
     private BookManager bookmanager = new BookManager();
     private CategoryManager categorymanager = new CategoryManager();
 
 
+=======
+
+	private UserManager userManager = null;
+	private BookManager bookmanager = null;
+	private CategoryManager categorymanager = null;
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a:src/menu/MenuManager.java
 	private FavoriteManager favoriteManager = null;
 
     
     public MenuManager() {
+		userManager = new UserManager();
+		bookmanager = new BookManager();
+		categorymanager = new CategoryManager();
 		favoriteManager = new FavoriteManager();
     }
 
@@ -49,6 +60,7 @@ public class MenuManager {
         System.out.println("\n              Press Enter to continue...");
         scanner.nextLine();  // 사용자가 엔터를 누를 때까지 대기
         
+<<<<<<< HEAD:src/menumanager/MenuManager.java
         while(true) {
             db.getDBConnect();
             System.out.println("\n\n");
@@ -79,6 +91,31 @@ public class MenuManager {
                     System.out.println("\n   잘못된 번호를 선택하였습니다! 다시 선택해주세요!");
             }
         }  
+=======
+    	while(true) {
+    		System.out.println("<< 도서 대여관리 프로그램 >>");
+    		System.out.println("1. 회원가입");
+    		System.out.println("2. 로그인");
+    		System.out.println("3. 종료");
+    		System.out.print("선택: ");
+    		int choice = scanner.nextInt();
+    		scanner.nextLine();
+    		
+    		switch(choice){
+    			case REGIST:
+    				userManager.registerUser();
+    				break;
+    			case LOGIN:
+    				userManager.loginProcess();
+    				break;
+    			case EXIT:
+    				System.out.println("프로그램을 종료합니다.");
+    				return;
+    			default:
+    				System.out.println("잘못된 번호를 선택하였습니다! 다시 선택해주세요!");
+    		}
+    	}  
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a:src/menu/MenuManager.java
     }
     
 	public void iBraryMenu() {
@@ -106,14 +143,14 @@ public class MenuManager {
 					bookmanager.searchBooks();
 					break;
 				case USER_SEARCH:
-					MyPage();
+					myPage();
 					break;
 				case FAVORITES:
 					// TODO : 화면상 입력 로직 추가하기
 					favoriteManager.viewCart(UserManager.currentUserEmail);
 					break;
 				case LOGOUT:
-					user.logout();
+					userManager.logout();
 					System.out.println("로그아웃되었습니다.");
 					return;
 				default:
@@ -122,6 +159,7 @@ public class MenuManager {
 		}
 	}
 
+<<<<<<< HEAD:src/menumanager/MenuManager.java
     public void MyPage() { 
         while(true) {
             System.out.println("\n\n");
@@ -157,6 +195,46 @@ public class MenuManager {
             }
         }
     }
+=======
+	public void myPage() {
+
+		while(true) {
+	        System.out.println("\n\n");
+	        System.out.println("   =====================================================");
+	        System.out.println("   =                   마이 페이지                      =");
+	        System.out.println("   =                                                   =");
+	        System.out.println("   =                     _______                       =");
+	        System.out.println("   =                    /       \\                      =");
+	        System.out.println("   =                   |  o   o  |                     =");
+	        System.out.println("   =                   |    ^    |                     =");
+	        System.out.println("   =                    \\  \\_/  /                      =");
+	        System.out.println("   =                     \\_____/                       =");
+	        System.out.println("   =                    /       \\                      =");
+	        System.out.println("   =                   /         \\                     =");
+	        System.out.println("   =                                                   =");
+	        System.out.println("   =====================================================");
+			System.out.println("1. 유저정보");
+			System.out.println("2. 빌린 책 리스트");
+			System.out.println("3. 메인메뉴");
+			System.out.print("선택: ");
+			int choice = scanner.nextInt();
+			scanner.nextLine();
+			
+			switch(choice) {
+				case USER_INFO:
+					userManager.showUserInfo();
+					break;
+				case SHOW_LENTLIST:
+					userManager.showRentList();
+					break;
+				case MAINMENU:
+					return;
+				default:
+					System.out.println("잘못된 선택입니다.");
+			}
+		}
+	}
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a:src/menu/MenuManager.java
 	
     public void FavoritesMenu() {
         String userId = "user123"; // 예시 사용자 ID. 실제로는 로그인한 사용자의 ID를 사용해야 합니다.

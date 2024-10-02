@@ -1,36 +1,41 @@
 package user;
 
-import java.sql.*;
-import java.util.List;
-import java.util.Scanner;
-
-import menumanager.MenuManager;
-import address.AddressManager;
 import address.Address;
+import address.AddressManager;
+import menu.MenuManager;
 import rent.Rent;
 import rent.RentRepository;
 
-import static db.DBConnectionUtil.*;
+import java.sql.Date;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class UserManager {
     public static String currentUserEmail = null;
     private Scanner scanner = new Scanner(System.in);
-    private Connection conn = null;
-    private PreparedStatement pstmt = null;
-    private ResultSet rs = null;
 
+    private UserRepository userRepository = null;
     private RentRepository rentRepository = null;
 
     public UserManager() {
+        userRepository = new UserRepository();
         rentRepository = new RentRepository();
     }
 
+<<<<<<< HEAD
 	/**
 	 * 로그인을 실행시키기 위한 메서드
 	 * @return
 	 */
+=======
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
 
+    /**
+     * 로그인 메서드
+     *
+     * @return 로그인 성공하면 true, 실패하면 false
+     */
     public boolean loginProcess() {
         MenuManager menu = new MenuManager();
         System.out.print("이메일: ");
@@ -38,7 +43,8 @@ public class UserManager {
         System.out.print("비밀번호: ");
         String password = scanner.nextLine();
 
-        boolean success = loginProcess(id, password);
+        currentUserEmail = id;  // 로그인한 유저의 이메일을 저장
+        boolean success = userRepository.login(currentUserEmail, password);
         if (success) {
             System.out.println("환영합니다.");
             menu.iBraryMenu();
@@ -49,6 +55,7 @@ public class UserManager {
         }
     }
 
+<<<<<<< HEAD
     /**
      * db에 있는 id,password가 일치하는지 확인하는 메서드
      * @param id
@@ -58,27 +65,21 @@ public class UserManager {
     
     public boolean loginProcess(String id, String password) {
         String sql = "SELECT * FROM user WHERE id = ? AND password = ?";
+=======
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
 
-        try {
-            conn = getDBConnect();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, id);
-            pstmt.setString(2, password);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    currentUserEmail = id;
-                    return true;
-                }
-                return false;
-            }
-        } catch (SQLException e) {
-            System.out.println("로그인 처리 중 오류가 발생했습니다: " + e.getMessage());
-            return false;
-        } finally {
-            close(conn, pstmt, rs);
-        }
+    /**
+     * 중복된 아이디가 있는지 확인하는 메서드
+     *
+     * @param id 중복을 확인할 아이디
+     * @return 중복된 아이디가 있으면 true, 없으면 false
+     */
+    public boolean isIdDuplicate(String id) { // 중복값 체크 메서드
+        return userRepository.findCountUserById(id) > 0;
+
     }
 
+<<<<<<< HEAD
 //  register 회원가입 메서드
     
     /**
@@ -131,6 +132,16 @@ public class UserManager {
         } finally {
             close(conn, pstmt, rs);
         }
+=======
+    /**
+     * 회원가입 메서드
+     *
+     * @param user 회원가입할 유저 정보
+     * @return 회원가입 성공하면 true, 실패하면 false
+     */
+    public boolean registerUser(User user) { // 적절히 값을 넣었는지 확인하는 메서드
+        return userRepository.saveUser(user);
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
     }
 
     /**
@@ -192,50 +203,42 @@ public class UserManager {
         }
     }
 
+<<<<<<< HEAD
     /**
      * 유저정보 출력하는 메서드
      */
 
     public void showUserInfo() { 
+=======
 
-        String sql = "select u.id, u.name, u.phone, u.birth_date, a.addr1, a.addr2, a.zip_code \r\n"
-                + "from user u\r\n"
-                + "join address a\r\n"
-                + "on u.address_id = a.id\r\n"
-                + "where u.id = ?;";
-        try {
-            conn = getDBConnect();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, currentUserEmail);
-            rs = pstmt.executeQuery();
+    /**
+     * 유저 정보 출력 메서드
+     */
+    public void showUserInfo() {
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
 
-            while (rs.next()) {
-                String id = rs.getString("id");
-                String name = rs.getString("name");
-                String phone = rs.getString("phone");
-                String addr1 = rs.getString("addr1");
-                String addr2 = rs.getString("addr2");
-                int zipcode = rs.getInt("zip_code");
-                Date birthDate = rs.getDate("birth_date");
-                System.out.println("===== 마이페이지 =====");
-                System.out.println("이메일: " + id);
-                System.out.println("이름: " + name);
-                System.out.println("전화번호: " + phone);
-                System.out.println("주소: " + addr1 + " " + addr2);
-                System.out.println("우편번호: " + zipcode);
-                System.out.println("생년월일: " + birthDate);
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println("오류가 발생했습니다. 다시 시도해주세요.");
+        for (User user : userRepository.findUserListById(currentUserEmail)) {
+            System.out.println("===== 마이페이지 =====");
+            System.out.println("이메일: " + user.getId());
+            System.out.println("이름: " + user.getName());
+            System.out.println("전화번호: " + user.getPhone());
+            System.out.println("주소: " + user.getAddr1() + " " + user.getAddr2());
+            System.out.println("우편번호: " + user.getZipcode());
+            System.out.println("생년월일: " + user.getBirthDate());
         }
     }
 
     /**
+<<<<<<< HEAD
      * 렌트 리스트 보여주는 메서드
      */
     
     public void showRentList() { 
+=======
+     * 대여한 책 리스트 출력 메서드
+     */
+    public void showRentList() {
+>>>>>>> c02a3a0c0f20421b317e0427c4619338def22d2a
         List<Rent> rentList = this.rentRepository.rentListByUserId(currentUserEmail);
         if (rentList.isEmpty()) {
             System.out.println("대여한 책이 없습니다.");
@@ -249,6 +252,9 @@ public class UserManager {
         }
     }
 
+    /**
+     * 로그아웃 메서드
+     */
     public void logout() {
         currentUserEmail = null;
         System.out.println("로그아웃되었습니다.");
