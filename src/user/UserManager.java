@@ -56,9 +56,8 @@ public class UserManager {
     /**
      * 중복값 체크 메서드
      * @param id
-     * @return
+     * @return 로그인 성공하면 true, 실패하면 false
      */
-
     public boolean isIdDuplicate(String id) { 
         String sql = "select count(*) from user where id = ?";
         try {
@@ -80,9 +79,8 @@ public class UserManager {
     /**
      * db에 적절한 값을 넣었는지 확인하기 위한 메서드
      * @param user
-     * @return
+     * @return 적절한 값을 넣으면 true 잘못 넣었으면 false
      */
-    
 
     public boolean registerUser(User user) { 
         String sql = "insert into user (id, name, password, phone, address_id, birth_date) values (?, ?, ?, ?, ?, ?)";
@@ -145,7 +143,7 @@ public class UserManager {
                     continue;
                 }
 
-                System.out.println("주소를 입력해주세요 (5자리 우편번호): ");
+                System.out.println("주소를 입력해주세요: ");
                 Address address = addressManager.registAddress();
                 long address_id = address.getId();
 
@@ -182,7 +180,9 @@ public class UserManager {
         }
     }
 
-
+    /**
+     * 렌트 리스트 정보 출력 메서드
+     */
     public void showRentList() {
         List<Rent> rentList = this.rentRepository.rentListByUserId(currentUserEmail);
         if (rentList.isEmpty()) {

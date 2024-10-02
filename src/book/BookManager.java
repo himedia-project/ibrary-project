@@ -228,7 +228,7 @@ public class BookManager {
                 System.out.println("   =   |         |     |         |     |         |     =");
                 System.out.println("   =   |_________|     |_________|     |_________|     =");
                 System.out.println("   =                                                   =");
-                System.out.println("   = 1.이펙티브 자바   2.Real MySQL 8.0   3.Clean Code    =");
+                System.out.println("   =      이펙티브 자바   Real MySQL 8.0   Clean Code    =");
                 System.out.println("   =                                                   =");
                 System.out.println("   =====================================================");
                 System.out.println("   =                   북 검색 메뉴                     =");

@@ -112,7 +112,7 @@ public class MenuManager {
 					bookmanager.searchBooks();
 					break;
 				case USER_SEARCH:
-					myPage();
+					MyPage();
 					break;
 				case FAVORITES:
 					// TODO : 화면상 입력 로직 추가하기
@@ -164,46 +164,6 @@ public class MenuManager {
             }
         }
     }
-
-	public void myPage() {
-
-		while(true) {
-	        System.out.println("\n\n");
-	        System.out.println("   =====================================================");
-	        System.out.println("   =                   마이 페이지                      =");
-	        System.out.println("   =                                                   =");
-	        System.out.println("   =                     _______                       =");
-	        System.out.println("   =                    /       \\                      =");
-	        System.out.println("   =                   |  o   o  |                     =");
-	        System.out.println("   =                   |    ^    |                     =");
-	        System.out.println("   =                    \\  \\_/  /                      =");
-	        System.out.println("   =                     \\_____/                       =");
-	        System.out.println("   =                    /       \\                      =");
-	        System.out.println("   =                   /         \\                     =");
-	        System.out.println("   =                                                   =");
-	        System.out.println("   =====================================================");
-			System.out.println("1. 유저정보");
-			System.out.println("2. 빌린 책 리스트");
-			System.out.println("3. 메인메뉴");
-			System.out.print("선택: ");
-			int choice = scanner.nextInt();
-			scanner.nextLine();
-			
-			switch(choice) {
-				case USER_INFO:
-					userManager.showUserInfo();
-					break;
-				case SHOW_LENTLIST:
-					userManager.showRentList();
-					break;
-				case MAINMENU:
-					return;
-				default:
-					System.out.println("잘못된 선택입니다.");
-			}
-		}
-	}
-
 	
     public void FavoritesMenu() {
         String userId = "user123"; // 예시 사용자 ID. 실제로는 로그인한 사용자의 ID를 사용해야 합니다.
