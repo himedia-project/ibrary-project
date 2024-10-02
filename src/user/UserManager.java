@@ -74,30 +74,49 @@ public class UserManager {
         AddressManager addressManager = new AddressManager();
         while (true) {
             try {
+                System.out.println();
+                System.out.println("   ** quit 를 입력하면 처음화면으로 돌아갑니다. **  ");
+                System.out.println();
                 System.out.print("   이메일: ");
                 String id = scanner.nextLine();
+                if (id.equalsIgnoreCase("quit")) {
+                    System.out.println();
+                    break;
+                }
 
                 if (isIdDuplicate(id)) {
-                    System.out.println("중복 아이디입니다. 다른 아이디를 입력하십시오.");
+                    System.out.println("   중복 아이디입니다. 다른 아이디를 입력하십시오.");
                     continue;
                 }
 
                 if (!id.contains("@")) {
-                    System.out.println("이메일 형식이 아닙니다. 다시 입력해주세요.");
+                    System.out.println("   이메일 형식이 아닙니다. 다시 입력해주세요.");
                     continue;
                 }
 
                 System.out.print("   비밀번호: ");
                 String password = scanner.nextLine();
+                if (password.equalsIgnoreCase("quit")) {
+                    break;
+                }
 
                 System.out.print("   이름: ");
                 String name = scanner.nextLine();
+                if (name.equalsIgnoreCase("quit")) {
+                    break;
+                }
 
                 System.out.print("   전화번호: ");
                 String phone = scanner.nextLine();
+                if (phone.equalsIgnoreCase("quit")) {
+                    break;
+                }
 
                 System.out.print("   생년월일 (YYYY-MM-DD): ");
                 String birthStr = scanner.nextLine();
+                if (birthStr.equalsIgnoreCase("quit")) {
+                    break;
+                }
                 Date birth_date = Date.valueOf(birthStr);
 
                 if (!birthStr.contains("-")) {
@@ -109,18 +128,16 @@ public class UserManager {
                 Address address = addressManager.registAddress();
                 long address_id = address.getId();
 
-
                 User user = new User(id, password, name, phone, address_id, birth_date);
                 boolean success = registerUser(user);
                 if (success) {
-                	printRegistrationSuccessArt();
+                    printRegistrationSuccessArt();
                     return;
                 } else {
-                	printRegistrationFailureArt();
+                    printRegistrationFailureArt();
                 }
             } catch (IllegalArgumentException e) {
-                System.out.println("   잘못 입력하셨습니다: " + e.getMessage());
-                System.out.println("   다시 입력해 주세요.");
+                System.out.println("   잘못 입력하셨습니다. 다시 입력해주세요.");
             }
         }
     }
