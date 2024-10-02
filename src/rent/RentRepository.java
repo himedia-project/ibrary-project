@@ -77,4 +77,22 @@ public class RentRepository {
         }
     }
 
+    public boolean findRentByBookIdAndUserId(String bookId, String userId) {
+        String sql = "select * from rent where book_id = ? and user_id = ?";
+        try {
+            conn = getDBConnect();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, bookId);
+            pstmt.setString(2, userId);
+            rs = pstmt.executeQuery();
+
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, pstmt, rs);
+        }
+
+        return false;
+    }
 }
