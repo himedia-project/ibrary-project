@@ -239,9 +239,9 @@ public class BookManager {
                 System.out.println("   =                  /    📖   \\                      =");
                 System.out.println("   =                 /__________\\                      =");
                 System.out.println("   =                                                   =");
-                System.out.println("   =        1. 타이틀        2. 지은이                   =");
-                System.out.println("   =        3. 출판사        4. 카테고리                  =");
-                System.out.println("   =                0. 메인화면                         =");
+                System.out.println("   =            1. 타이틀        2. 지은이                =");
+                System.out.println("   =            3. 출판사        4. 카테고리               =");
+                System.out.println("   =                   0. 메인화면                      =");
                 System.out.println("   =                                                   =");
                 System.out.println("   =====================================================");
                 System.out.print("   선택: ");

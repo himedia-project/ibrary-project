@@ -171,24 +171,24 @@ public class UserManager {
     public void showUserInfo() {
         for (User user : userRepository.findUserListById(currentUserEmail)) {
             System.out.println("\n\n");
-            System.out.println("   =====================================================");
-            System.out.println("   =                   마이 페이지                      =");
+            System.out.println("   =========================================================");
+            System.out.println("   =                      마이 페이지                         =");
+            System.out.println("   =                                                       =");
+            System.out.println("   =         ██╗   ██╗███████╗███████╗██████╗              =");
+            System.out.println("   =         ██║   ██║██╔════╝██╔════╝██╔══██╗             =");
+            System.out.println("   =         ██║   ██║███████╗█████╗  ██████╔╝             =");
+            System.out.println("   =         ██║   ██║╚════██║██╔══╝  ██╔══██╗             =");
+            System.out.println("   =         ╚██████╔╝███████║███████╗██║  ██║             =");
+            System.out.println("   =          ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝             =");
+            System.out.println("   =                                                       =");
+            System.out.println("   =      이메일: " + padRight(user.getId(), 37) + "=");
+            System.out.println("   =      이름: " + padRight(user.getName(), 39) + "=");
+            System.out.println("   =      전화번호: " + padRight(user.getPhone(), 35) + "=");
+            System.out.println("   =      주소: " + padRight(user.getAddr1() + " " + user.getAddr2(), 39) + "=");
+            System.out.println("   =      우편번호: " + padRight(user.getZipcode(), 35) + "=");
+            System.out.println("   =      생년월일: " + padRight(user.getBirthDate().toString(), 35) + "=");
             System.out.println("   =                                                   =");
-            System.out.println("   =   ██╗   ██╗███████╗███████╗██████╗ ██╗███╗   ██╗███████╗ ██████╗  =");
-            System.out.println("   =   ██║   ██║██╔════╝██╔════╝██╔══██╗██║████╗  ██║██╔════╝██╔═══██╗ =");
-            System.out.println("   =   ██║   ██║███████╗█████╗  ██████╔╝██║██╔██╗ ██║█████╗  ██║   ██║ =");
-            System.out.println("   =   ██║   ██║╚════██║██╔══╝  ██╔══██╗██║██║╚██╗██║██╔══╝  ██║   ██║ =");
-            System.out.println("   =   ╚██████╔╝███████║███████╗██║  ██║██║██║ ╚████║██║     ╚██████╔╝ =");
-            System.out.println("   =    ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝  =");
-            System.out.println("   =                                                   =");
-            System.out.println("   =  이메일: " + padRight(user.getId(), 37) + "=");
-            System.out.println("   =  이름: " + padRight(user.getName(), 39) + "=");
-            System.out.println("   =  전화번호: " + padRight(user.getPhone(), 35) + "=");
-            System.out.println("   =  주소: " + padRight(user.getAddr1() + " " + user.getAddr2(), 39) + "=");
-            System.out.println("   =  우편번호: " + padRight(user.getZipcode(), 35) + "=");
-            System.out.println("   =  생년월일: " + padRight(user.getBirthDate().toString(), 35) + "=");
-            System.out.println("   =                                                   =");
-            System.out.println("   =====================================================");
+            System.out.println("   ==========================================================");
         }
     }
 
@@ -230,8 +230,8 @@ public class UserManager {
         System.out.println("   =   ███████╗╚██████╔╝╚██████╔╝██║██║ ╚████║ =");
         System.out.println("   =   ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝ =");
         System.out.println("   =                                           =");
-        System.out.println("   =             로그인 성공!                    =");
-        System.out.println("   =         환영합니다, " + currentUserEmail + "님    =");
+        System.out.println("   =                로그인 성공!                  =");
+        System.out.println("   =         환영합니다, " + currentUserEmail + "님              =");
         System.out.println("   =                                           =");
         System.out.println("   =============================================");
         System.out.println("\n");
@@ -239,56 +239,56 @@ public class UserManager {
     
     private void printLoginFailureArt() {
         System.out.println("\n");
-        System.out.println("   =============================================");
-        System.out.println("   =                                           =");
+        System.out.println("   ================================================");
+        System.out.println("   =                                               =");
         System.out.println("   =   ███████╗ █████╗ ██╗██╗     ███████╗██████╗  =");
         System.out.println("   =   ██╔════╝██╔══██╗██║██║     ██╔════╝██╔══██╗ =");
         System.out.println("   =   █████╗  ███████║██║██║     █████╗  ██║  ██║ =");
         System.out.println("   =   ██╔══╝  ██╔══██║██║██║     ██╔══╝  ██║  ██║ =");
         System.out.println("   =   ██║     ██║  ██║██║███████╗███████╗██████╔╝ =");
         System.out.println("   =   ╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝  =");
-        System.out.println("   =                                           =");
-        System.out.println("   =             로그인 실패!                    =");
-        System.out.println("   =     이메일과 비밀번호를 확인해주세요.          =");
-        System.out.println("   =                                           =");
-        System.out.println("   =============================================");
+        System.out.println("   =                                               =");
+        System.out.println("   =                     로그인 실패!                 =");
+        System.out.println("   =             이메일과 비밀번호를 확인해주세요.           =");
+        System.out.println("   =                                               =");
+        System.out.println("   ================================================");
         System.out.println("\n");
     }
     
     private void printRegistrationSuccessArt() {
         System.out.println("\n");
-        System.out.println("   =============================================");
-        System.out.println("   =                                           =");
+        System.out.println("   ====================================================================");
+        System.out.println("   =                                                                  =");
         System.out.println("   =   ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗ =");
         System.out.println("   =   ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝ =");
         System.out.println("   =   ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗   =");
         System.out.println("   =   ██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝   =");
         System.out.println("   =   ╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗ =");
         System.out.println("   =    ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝ =");
-        System.out.println("   =                                           =");
-        System.out.println("   =             회원가입 성공!                  =");
-        System.out.println("   =         환영합니다, 새 회원님!               =");
-        System.out.println("   =                                           =");
-        System.out.println("   =============================================");
+        System.out.println("   =                                                                  =");
+        System.out.println("   =                              회원가입 성공!                          =");
+        System.out.println("   =                     환영합니다, \" + currentUserEmail + \"님         =");
+        System.out.println("   =                                                                  =");
+        System.out.println("   ====================================================================");
         System.out.println("\n");
     }
     
     private void printRegistrationFailureArt() {
         System.out.println("\n");
-        System.out.println("   =============================================");
-        System.out.println("   =                                           =");
+        System.out.println("   =================================================");
+        System.out.println("   =                                               =");
         System.out.println("   =   ███████╗ █████╗ ██╗██╗     ███████╗██████╗  =");
         System.out.println("   =   ██╔════╝██╔══██╗██║██║     ██╔════╝██╔══██╗ =");
         System.out.println("   =   █████╗  ███████║██║██║     █████╗  ██║  ██║ =");
         System.out.println("   =   ██╔══╝  ██╔══██║██║██║     ██╔══╝  ██║  ██║ =");
         System.out.println("   =   ██║     ██║  ██║██║███████╗███████╗██████╔╝ =");
         System.out.println("   =   ╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝  =");
-        System.out.println("   =                                           =");
-        System.out.println("   =             회원가입 실패!                  =");
-        System.out.println("   =     다시 시도해주세요. 문제가 지속되면        =");
-        System.out.println("   =     관리자에게 문의하세요.                   =");
-        System.out.println("   =                                           =");
-        System.out.println("   =============================================");
+        System.out.println("   =                                               =");
+        System.out.println("   =                   회원가입 실패!                  =");
+        System.out.println("   =           다시 시도해주세요. 문제가 지속되면            =");
+        System.out.println("   =                 관리자에게 문의하세요.               =");
+        System.out.println("   =                                               =");
+        System.out.println("   =================================================");
         System.out.println("\n");
     }
     
