@@ -67,9 +67,10 @@ public class FavoriteManager {
 
             switch (action) {
                 case 1:
-                    if (!checkFavoritesBookId(userId)) {
-                        removeFavorite(userId, selectedId);
-                    }
+                    System.out.print("   책 아이디를 입력하세요: ");
+                    String bookId = scan.nextLine();
+
+                    removeFavorite(userId, bookId);
                     break;
                 case 2:
                     if (!rentManager.checkRentBookId(userId)) {
