@@ -69,7 +69,6 @@ public class FavoriteManager {
                 case 1:
                     System.out.print("   책 아이디를 입력하세요: ");
                     String bookId = scan.nextLine();
-
                     // 해당 bookId 즐겨찾기에 없느지 체크
                     if (isCountZero(bookId, userId)) {
                         System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다. 다시 입력해주세요.");
@@ -81,7 +80,6 @@ public class FavoriteManager {
                 case 2:
                     System.out.print("   책 아이디를 입력하세요: ");
                     String book2Id = scan.nextLine();
-
                     // 해당 bookId 즐겨찾기에 없느지 체크
                     if (isCountZero(book2Id, userId)) {
                         System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다. 다시 입력해주세요.");
@@ -119,7 +117,7 @@ public class FavoriteManager {
     }
 
     public boolean isCountZero(String bookId, String userId) {
-        return favoriteRepository.countByUserIdAndBookId(bookId, userId) == 0;
+        return favoriteRepository.countByUserIdAndBookId(userId, bookId) == 0;
     }
 
 
