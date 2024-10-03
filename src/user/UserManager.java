@@ -245,7 +245,7 @@ public class UserManager {
         System.out.println("   =    ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝ =");
         System.out.println("   =                                                                  =");
         System.out.println("   =                              회원가입 성공!                          =");
-        System.out.println("   =                     환영합니다, \" + currentUserEmail + \"님         =");
+        System.out.println("   =                     환영합니다, ," + currentUserEmail + "님         =");
         System.out.println("   =                                                                  =");
         System.out.println("   ====================================================================");
         System.out.println("\n");
