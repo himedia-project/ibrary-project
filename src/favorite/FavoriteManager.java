@@ -70,11 +70,26 @@ public class FavoriteManager {
                     System.out.print("   책 아이디를 입력하세요: ");
                     String bookId = scan.nextLine();
 
+                    // 해당 bookId 즐겨찾기에 없느지 체크
+                    if (isCountZero(bookId, userId)) {
+                        System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다. 다시 입력해주세요.");
+                        continue;
+                    }
+
                     removeFavorite(userId, bookId);
                     break;
                 case 2:
-                    if (!rentManager.checkRentBookId(userId)) {
-                        rentManager.saveAndUpdateRent(selectedId, userId);
+                    System.out.print("   책 아이디를 입력하세요: ");
+                    String book2Id = scan.nextLine();
+
+                    // 해당 bookId 즐겨찾기에 없느지 체크
+                    if (isCountZero(book2Id, userId)) {
+                        System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다. 다시 입력해주세요.");
+                        continue;
+                    }
+
+                    if (!rentManager.checkDuplicateRentBookId(book2Id, userId)) {
+                        rentManager.saveAndUpdateRent(book2Id, userId);
                     }
                     break;
                 case 3:
@@ -94,16 +109,17 @@ public class FavoriteManager {
      * @param userId 사용자 아이디
      * @return 책 아이디 체크 결과, 즐겨찾기에 없으면 false 있으면 true
      */
-    public boolean checkFavoritesBookId(String userId) {
-        Scanner scan = new Scanner(System.in);
+    public boolean checkDuplicateFavoritesBookId(String bookId, String userId) {
 
-        System.out.print("   책 아이디를 입력하세요: ");
-        selectedId = scan.nextLine();
-        if(countByUserIdAndBookId(userId, selectedId) >= 1) {
+        if(countByUserIdAndBookId(userId, bookId) >= 1) {
             System.out.println("   해당 아이디의 책이 이미 즐겨찾기에 있습니다.");
             return true;
         }
         return false;
+    }
+
+    public boolean isCountZero(String bookId, String userId) {
+        return favoriteRepository.countByUserIdAndBookId(bookId, userId) == 0;
     }
 
 

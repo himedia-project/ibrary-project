@@ -4,7 +4,6 @@ import db.DBConnectionUtil;
 import favorite.FavoriteManager;
 import rent.RentManager;
 import user.UserManager;
-import book.CategoryManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -143,6 +142,7 @@ public class BookManager {
             e.printStackTrace();
         } finally {
             // PreparedStatement와 ResultSet은 여기서 close하지 않고, 필요할 때 close합니다.
+            // why? close하면 ResultSet이 닫히면서 PreparedStatement도 같이 닫히기 때문입니다.
             closeConnection();
         }
     }
@@ -165,13 +165,13 @@ public class BookManager {
 
             switch (action) {
                 case 1:
-                    if (!rentManager.checkRentBookId(UserManager.currentUserEmail)) {
+                    if (!rentManager.checkDuplicateRentBookId(selectedId, UserManager.currentUserEmail)) {
                         rentManager.saveAndUpdateRent(selectedId, UserManager.currentUserEmail);
                         System.out.println("   대여하기 기능이 실행되었습니다. ISBN: " + selectedId);
                     }
                     break;
                 case 2:
-                    if (!favoriteManager.checkFavoritesBookId(UserManager.currentUserEmail)) {
+                    if (!favoriteManager.checkDuplicateFavoritesBookId(selectedId, UserManager.currentUserEmail)) {
                         favoriteManager.addBook(UserManager.currentUserEmail, selectedId);
                         System.out.println("   즐겨찾기에 추가하기 기능이 실행되었습니다. ISBN: " + selectedId);
                     }
@@ -186,6 +186,6 @@ public class BookManager {
     }
 
     public void closeConnection() {
-        DBConnectionUtil.close(conn, pstmt, rs); // DB 연결 해제
+        DBConnectionUtil.close(conn, null, null); // DB 연결 해제
     }
 }
