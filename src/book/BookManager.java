@@ -143,7 +143,7 @@ public class BookManager {
         } finally {
             // PreparedStatement와 ResultSet은 여기서 close하지 않고, 필요할 때 close합니다.
             // why? close하면 ResultSet이 닫히면서 PreparedStatement도 같이 닫히기 때문입니다.
-            closeConnection();
+//            closeConnection();
         }
     }
 
