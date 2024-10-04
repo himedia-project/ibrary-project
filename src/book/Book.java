@@ -32,6 +32,17 @@ public class Book {
         this.publisher = publisher;
     }
 
+    public Book(String id, String category, String title, String writer, String publisher, String description, int rented) {
+        this.id = id;
+        this.category = category;
+        this.title = title;
+        this.writer = writer;
+        this.publisher = publisher;
+        this.description = description;
+        this.rented = rented == 1 ? true : false;
+    }
+
+
     public String getId() {
         return id;
     }

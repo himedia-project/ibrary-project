@@ -1,5 +1,7 @@
 package test;
 
+import excel.ExcelManager;
+
 public class Test {
 
     //	public static void main(String[] args) {
@@ -7,10 +9,10 @@ public class Test {
 //		MenuManager manager = new MenuManager();
 //		manager.initMenu();
 //	}
-//    public static void main(String[] args) {
-//        ExcelManager manager = new ExcelManager();
-//        manager.readExcel();
-//    }
+    public static void main(String[] args) {
+        ExcelManager manager = new ExcelManager();
+        manager.readExcel();
+    }
 
 }
 

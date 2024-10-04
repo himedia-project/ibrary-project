@@ -21,7 +21,7 @@ public class BookRepository {
 
     public List<Book> findbBookList() {
 
-        String sql = "select b.id, c.name, b.title, b.writer, b.publisher, b.rented " +
+        String sql = "select b.id, c.name, b.title, b.writer, b.publisher, b.description, b.rented " +
                 "from book b join category c on b.category_id = c.id";
 
         List<Book> bookList = new ArrayList<>();
@@ -36,7 +36,9 @@ public class BookRepository {
                         rs.getString("name"),
                         rs.getString("title"),
                         rs.getString("writer"),
-                        rs.getString("publisher")
+                        rs.getString("publisher"),
+                        rs.getString("description"),
+                        rs.getInt("rented")
                 );
                 bookList.add(book);
             }
