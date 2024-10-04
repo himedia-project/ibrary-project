@@ -4,6 +4,7 @@ package favorite;
 import book.Book;
 import book.BookRepository;
 import rent.RentManager;
+import rent.RentRepository;
 
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +13,7 @@ public class FavoriteManager {
 
     private FavoriteRepository favoriteRepository = null;
     private BookRepository bookRepository = null;
+    private RentRepository rentRepository = null;
 
     private RentManager rentManager = null;
 
@@ -21,12 +23,11 @@ public class FavoriteManager {
         favoriteRepository = new FavoriteRepository();
         bookRepository = new BookRepository();
         rentManager = new RentManager();
+        rentRepository = new RentRepository();
     }
 
 
     public void searchBooks(String userId) {
-
-        Scanner scan = new Scanner(System.in);
 
         System.out.println("\n\n");
         System.out.println("   =============================================================================");
@@ -41,59 +42,84 @@ public class FavoriteManager {
         System.out.println("\n   ===========================================================================");
         System.out.println("   =                                즐겨찾기 목록                                  =");
         System.out.println("\n   ===========================================================================");
-        showFavoritesBookList(userId);
-        System.out.println("\n   ===========================================================================");
-        System.out.println("   =============================================================================");
-        System.out.println("   =                                                                           =");
-        System.out.println("   =                              1. 즐겨찾기 삭제                                 =");
-        System.out.println("   =                              2. 대여하기                                     =");
-        System.out.println("   =                              3. 메인 메뉴로 돌아가기                            =");
-        System.out.println("   =                                                                           =");
-        System.out.println("   =============================================================================");
-        System.out.print("   선택: ");
-        int action = scan.nextInt();
-        scan.nextLine(); // 개행 문자 제거
-
-        if (action < 1 || action > 3) {
-            System.out.println("   잘못된 선택입니다.");
-            return;
-        }
 
         while (true) {
+
+            Scanner scan = new Scanner(System.in);
+            System.out.println();
+            showFavoritesBookList(userId);
+            System.out.println("\n   ===========================================================================");
+            System.out.println("   =============================================================================");
+            System.out.println("   =                                                                           =");
+            System.out.println("   =                              1. 즐겨찾기 삭제                                 =");
+            System.out.println("   =                              2. 대여하기                                     =");
+            System.out.println("   =                              3. 메인 메뉴로 돌아가기                            =");
+            System.out.println("   =                                                                           =");
+            System.out.println("   =============================================================================");
+            System.out.print("   선택: ");
+            int action = scan.nextInt();
+            scan.nextLine(); // 개행 문자 제거
+
+            if (action < 1 || action > 3) {
+                System.out.println("   잘못된 선택입니다. 다시 선택해주세요.");
+                continue;
+            }
+
             switch (action) {
                 case 1:
-                    inputBookId(userId);
+                    System.out.print("   책 아이디를 입력하세요: ");
+                    String bookId = scan.nextLine();
+                    // 해당 bookId 즐겨찾기에 없느지 체크
+                    if (isCountZero(bookId, userId)) {
+                        System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다. 다시 입력해주세요.");
+                        continue;
+                    }
 
-                    removeItem(userId, selectedId);
-                    return;
+                    removeFavorite(userId, bookId);
+                    break;
                 case 2:
-                    inputBookId(userId);
+                    System.out.print("   책 아이디를 입력하세요: ");
+                    String book2Id = scan.nextLine();
+                    // 해당 bookId 즐겨찾기에 없느지 체크
+                    if (isCountZero(book2Id, userId)) {
+                        System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다. 다시 입력해주세요.");
+                        continue;
+                    }
 
-                    rentManager.saveAndUpdateRent(selectedId, userId);
-                    return;
+                    if (!rentManager.checkDuplicateRentBookId(book2Id, userId)) {
+                        rentManager.saveAndUpdateRent(book2Id, userId);
+                    }
+                    break;
                 case 3:
                     System.out.println("   검색 옵션으로 돌아갑니다.");
                     return;
                 default:
-                    System.out.println("   잘못된 선택입니다.");
+                    System.out.println("   잘못된 선택입니다. 다시 선택해주세요");
             }
         }
 
     }
 
-    private void inputBookId(String userId) {
-        Scanner scan = new Scanner(System.in);
-        List<Book> bookList = getFavoritesBookListByUserId(userId);
 
-        System.out.print("   책 아이디를 입력하세요: ");
-        selectedId = scan.nextLine();
+    /**
+     * 즐겨찾기에 책 아이디 체크
+     *
+     * @param userId 사용자 아이디
+     * @return 책 아이디 체크 결과, 즐겨찾기에 없으면 false 있으면 true
+     */
+    public boolean checkDuplicateFavoritesBookId(String bookId, String userId) {
 
-        if (bookList.stream().noneMatch(book -> book.getId().equals(selectedId))) {
-            System.out.println("   해당 아이디의 책이 즐겨찾기에 없습니다.");
-            return;
+        if(countByUserIdAndBookId(userId, bookId) >= 1) {
+            System.out.println("   해당 아이디의 책이 이미 즐겨찾기에 있습니다.");
+            return true;
         }
-
+        return false;
     }
+
+    public boolean isCountZero(String bookId, String userId) {
+        return favoriteRepository.countByUserIdAndBookId(userId, bookId) == 0;
+    }
+
 
     /**
      * 즐겨찾기에 추가
@@ -114,7 +140,7 @@ public class FavoriteManager {
      * @param userId 사용자 아이디
      * @param bookId 책 아이디
      */
-    public void removeItem(String userId, String bookId) {
+    public void removeFavorite(String userId, String bookId) {
 
         favoriteRepository.delete(userId, bookId);
         System.out.println("   삭제완료");
@@ -129,7 +155,7 @@ public class FavoriteManager {
 
         List<Book> bookList = getFavoritesBookListByUserId(userId);
 
-        if(bookList.isEmpty()) {
+        if (bookList.isEmpty()) {
             System.out.println("   즐겨찾기에 추가된 책이 없습니다.");
             return;
         }
@@ -142,9 +168,25 @@ public class FavoriteManager {
         }
     }
 
+    /**
+     * 즐겨찾기에 추가된 책 리스트 가져오기
+     * @param userId 사용자 아이디
+     * @return 즐겨찾기에 추가된 책 리스트
+     */
     public List<Book> getFavoritesBookListByUserId(String userId) {
         List<String> bookIdList = favoriteRepository.findFavoriteBookIdListByUserId(userId);
 
         return bookRepository.findBookListByIdList(bookIdList);
+    }
+
+    /**
+     * 즐겨찾기에 추가된 책 카운트
+     *
+     * @param userId 사용자 아이디
+     * @return 즐겨찾기에 추가된 책 카운트
+     */
+
+    public int countByUserIdAndBookId(String userId, String bookId) {
+        return favoriteRepository.countByUserIdAndBookId(userId, bookId);
     }
 }

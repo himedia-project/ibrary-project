@@ -21,12 +21,6 @@ public class RentManager {
      */
     public void saveAndUpdateRent(String bookId, String userId) {
 
-        // 해당 bookId, userId rent 중복 체크
-        if (rentRepository.findRentByBookIdAndUserId(bookId, userId)) {
-            System.out.println("   이미 대여한 책입니다.");
-            return;
-        }
-
         Connection conn = null;
         try {
             conn = getDBConnect();
@@ -57,6 +51,21 @@ public class RentManager {
         rentRepository.insertRent(conn, bookId, userId);
         rentRepository.updateRented(conn, bookId);
         System.out.println("책이 성공적으로 대출되었습니다.");
+    }
+
+
+    /**
+     * 대여한 책 아이디 체크
+     * @param userId 사용자 아이디
+     * @return 책 아이디 체크 결과, 이미 대여했으면 true 안했으면 false
+     */
+    public boolean checkDuplicateRentBookId(String bookId, String userId) {
+        if (rentRepository.findRentByBookIdAndUserId(bookId, userId)) {
+            System.out.println("   이미 대여한 책입니다.");
+            return true;
+        }
+        return false;
+
     }
 
 }

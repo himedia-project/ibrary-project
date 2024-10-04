@@ -62,7 +62,7 @@ public class RentRepository {
             System.out.println("반납 예정 날짜: " + returnDate);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }   // close 처리는 트랜잭션 처리한 RentManager 메서드안에서 수행
     }
 
     public void updateRented(Connection conn, String bookId) {
@@ -74,7 +74,7 @@ public class RentRepository {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }   // close 처리는 트랜잭션 처리한 RentManager 메서드안에서 수행
     }
 
     public boolean findRentByBookIdAndUserId(String bookId, String userId) {

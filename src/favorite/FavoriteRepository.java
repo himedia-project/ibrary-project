@@ -65,6 +65,26 @@ public class FavoriteRepository {
         return bookIdList; //배열 출력
     }
 
+    public int countByUserIdAndBookId(String userId, String bookId) {
+        String sql = "select count(*) as cnt from favorites where user_id = ? and book_id = ?";
+        int count = 0;
+        try {
+            conn = getDBConnect();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userId);
+            pstmt.setString(2, bookId);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("cnt");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, pstmt, rs);
+        }
+        return count;
+    }
+
 
     public void save(String userId, String bookId) {
         String sql = "insert into favorites values(null,?,?)";
