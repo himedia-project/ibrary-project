@@ -41,21 +41,21 @@ public class BookManager {
             while (true) {
                 System.out.println("\n\n");
                 cateList.BookList();
-                System.out.println("   =====================================================");
-                System.out.println("   =                   북 검색 메뉴                     =");
-                System.out.println("   =                                                   =");
-                System.out.println("   =                     _____                         =");
-                System.out.println("   =                    /     \\                        =");
-                System.out.println("   =                   /  📚  \\                       =");
-                System.out.println("   =                  /    📖   \\                      =");
-                System.out.println("   =                 /__________\\                      =");
-                System.out.println("   =                                                   =");
-                System.out.println("   =            1. 타이틀        2. 지은이                =");
-                System.out.println("   =            3. 출판사        4. 카테고리               =");
-                System.out.println("   =                   0. 메인화면                      =");
-                System.out.println("   =                                                   =");
-                System.out.println("   =====================================================");
-                System.out.print("   선택: ");
+                System.out.println("   ======================================================");
+                System.out.println("   =                   북 검색 메뉴\t\t        =");
+                System.out.println("   =                                   \t                =");
+                System.out.println("   =                     ______                         =");
+                System.out.println("   =                    /      \\                        =");
+                System.out.println("   =                   /  📚\t\\                       =");
+                System.out.println("   =                  /    📖\t \\                      =");
+                System.out.println("   =                 /____________\\                     =");
+                System.out.println("   =                                                    =");
+                System.out.println("   =            1. 타이틀        2. 지은이     \t        =");
+                System.out.println("   =            3. 출판사        4. 카테고리                =");
+                System.out.println("   =                   0. 메인화면              \t        =");
+                System.out.println("   =                                                    =");
+                System.out.println("   ======================================================");
+                System.out.print("   원하는 옵션의 번호를 입력해주시기 바랍니다.   ");
                 selectnumber = scan.nextInt();
                 scan.nextLine(); // 개행 문자 제거
 
@@ -147,29 +147,35 @@ public class BookManager {
         }
     }
 
-    private void showOptions(String selectedId) {
+    public void showOptions(String selectedId) {
         while (true) {
             System.out.println("\n\n");
             System.out.println("   =====================================================");
-            System.out.println("   =                   도서 옵션                        =");
+            System.out.println("   =                      도서 옵션          \t       =");
             System.out.println("   =                                                   =");
-            System.out.println("   =                    📚  📖  📚                     =");
+            System.out.println("   =                    📚  📖  📚       \t\t       =");
             System.out.println("   =                                                   =");
-            System.out.println("   =        1. 대여하기       2. 즐겨찾기에 추가하기        =");
-            System.out.println("   =              3. 검색 옵션으로 돌아가기                =");
+            System.out.println("   =        1. 대여하기       2. 즐겨찾기에 추가하기\t       =");
+            System.out.println("   =              3. 검색 옵션으로 돌아가기          \t       =");
             System.out.println("   =                                                   =");
             System.out.println("   =====================================================");
-            System.out.print("   선택: ");
+            System.out.print("   원하는 옵션의 번호를 입력해주시기 바랍니다.   ");
             int action = scan.nextInt();
             scan.nextLine(); // 개행 문자 제거
 
             switch (action) {
                 case 1:
+                	if (isBookRented(selectedId)) {
+                        System.out.println("   선택된 책은 대여가 불가능한 상태입니다.");
+                        return; // 검색 옵션으로 돌아가기
+                    }
+
+                    // 대여 가능하면 대여 처리
                     if (!rentManager.checkDuplicateRentBookId(selectedId, UserManager.currentUserEmail)) {
                         rentManager.saveAndUpdateRent(selectedId, UserManager.currentUserEmail);
                         System.out.println("   대여하기 기능이 실행되었습니다. ISBN: " + selectedId);
                     }
-                    break;
+                    break;                    
                 case 2:
                     if (!favoriteManager.checkDuplicateFavoritesBookId(selectedId, UserManager.currentUserEmail)) {
                         favoriteManager.addBook(UserManager.currentUserEmail, selectedId);
@@ -183,6 +189,25 @@ public class BookManager {
                     System.out.println("   잘못된 선택입니다. 다시 선택해주세요.");
             }
         }
+    }
+    
+    private boolean isBookRented(String bookId) {
+        String sql = "SELECT rented FROM book WHERE id = ?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, bookId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int rentedStatus = rs.getInt("rented");
+                return rentedStatus == 1; // 1이면 이미 대여 불가능한 상태
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // 기본값으로 대여 가능 상태로 가정
     }
 
     public void closeConnection() {

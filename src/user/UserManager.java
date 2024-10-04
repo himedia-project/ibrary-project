@@ -93,7 +93,9 @@ public class UserManager {
                     System.out.println("   이메일 형식이 아닙니다. 다시 입력해주세요.");
                     continue;
                 }
-
+                
+                currentUserEmail = id;
+                
                 System.out.print("   비밀번호: ");
                 String password = scanner.nextLine();
                 if (password.equalsIgnoreCase("quit")) {
