@@ -2,7 +2,6 @@ package rent;
 
 
 import java.sql.Connection;
-import java.util.Scanner;
 
 import static db.DBConnectionUtil.*;
 
@@ -60,12 +59,8 @@ public class RentManager {
      * @param userId 사용자 아이디
      * @return 책 아이디 체크 결과, 이미 대여했으면 true 안했으면 false
      */
-    public boolean checkRentBookId(String userId) {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("   책 아이디를 입력하세요: ");
-        String selectedId = scan.nextLine();
-
-        if (rentRepository.findRentByBookIdAndUserId(selectedId, userId)) {
+    public boolean checkDuplicateRentBookId(String bookId, String userId) {
+        if (rentRepository.findRentByBookIdAndUserId(bookId, userId)) {
             System.out.println("   이미 대여한 책입니다.");
             return true;
         }

@@ -93,7 +93,9 @@ public class UserManager {
                     System.out.println("   이메일 형식이 아닙니다. 다시 입력해주세요.");
                     continue;
                 }
-
+                
+                currentUserEmail = id;
+                
                 System.out.print("   비밀번호: ");
                 String password = scanner.nextLine();
                 if (password.equalsIgnoreCase("quit")) {
@@ -245,7 +247,7 @@ public class UserManager {
         System.out.println("   =    ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝ =");
         System.out.println("   =                                                                  =");
         System.out.println("   =                              회원가입 성공!                          =");
-        System.out.println("   =                     환영합니다, \" + currentUserEmail + \"님         =");
+        System.out.println("   =                     환영합니다, ," + currentUserEmail + "님         =");
         System.out.println("   =                                                                  =");
         System.out.println("   ====================================================================");
         System.out.println("\n");
