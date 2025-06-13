@@ -42,13 +42,6 @@ public class ExcelManager {
                 cell.setCellValue(headerList.get(i));
                 cell.setCellStyle(headerStyle);
             }
-//            headerRow.createCell(0).setCellValue("ISBN");
-//            headerRow.createCell(1).setCellValue("카테고리");
-//            headerRow.createCell(2).setCellValue("제목");
-//            headerRow.createCell(3).setCellValue("저자");
-//            headerRow.createCell(4).setCellValue("출판사");
-//            headerRow.createCell(5).setCellValue("부연설명");
-//            headerRow.createCell(6).setCellValue("대여여부");
 
             for (int i = 0; i < bookList.size(); i++) {
                 Row row = sheet.createRow(i + 1);
@@ -58,7 +51,7 @@ public class ExcelManager {
                 row.createCell(3).setCellValue(bookList.get(i).getWriter());
                 row.createCell(4).setCellValue(bookList.get(i).getPublisher());
                 row.createCell(5).setCellValue(bookList.get(i).getDescription());
-                row.createCell(6).setCellValue(bookList.get(i).isRented() == true ? "대여중" : "대여가능");
+                row.createCell(6).setCellValue(bookList.get(i).isRented() ? "대여중" : "대여가능");
             }
 
             // 엑셀 파일 저장

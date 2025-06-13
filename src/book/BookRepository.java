@@ -44,7 +44,8 @@ public class BookRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            throw new IllegalStateException(e);
         } finally {
             close(conn, pstmt, rs);
         }
@@ -85,7 +86,8 @@ public class BookRepository {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            throw new IllegalStateException(e);
 
         } finally {
             close(conn, pstmt, rs);
