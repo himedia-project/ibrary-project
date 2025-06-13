@@ -14,7 +14,7 @@ public class FavoriteRepository {
     private ResultSet rs = null;
 
 
-    public int recordCount() {
+/*    public int recordCount() {
         String sql = "select count(*) as cnt from favorites";
         //sql 문자열 변수에 favorites 테이블의 레코드수를 센다.
         //as cnt :결과값을 'cnt'라는 이름으로 변환
@@ -121,8 +121,97 @@ public class FavoriteRepository {
             close(conn, pstmt, null);
         }
 
+    }*/
+
+    // ⭐ try-with-resources를 사용하여 리소스 자동 관리
+    public int recordCount() {
+        String sql = "select count(*) as cnt from favorites";
+        int recount = 0;
+
+        try (Connection conn = getDBConnect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            if (rs.next()) {
+                recount = rs.getInt("cnt");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recount;
     }
 
+    public List<String> findFavoriteBookIdListByUserId(String userId) {
+        List<String> bookIdList = new ArrayList<>();
+        String sql = "select f.book_id from favorites f where user_id = ? ";
+
+        try (Connection conn = getDBConnect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String bookId = rs.getString("book_id");
+                    bookIdList.add(bookId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookIdList;
+    }
+
+    public int countByUserIdAndBookId(String userId, String bookId) {
+        String sql = "select count(*) as cnt from favorites where user_id = ? and book_id = ?";
+        int count = 0;
+
+        try (Connection conn = getDBConnect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userId);
+            pstmt.setString(2, bookId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt("cnt");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public void save(String userId, String bookId) {
+        String sql = "insert into favorites values(null,?,?)";
+
+        try (Connection conn = getDBConnect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userId);
+            pstmt.setString(2, bookId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(String userId, String bookId) {
+        String sql = "delete from favorites where user_id = ? and book_id =? ";
+
+        try (Connection conn = getDBConnect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userId);
+            pstmt.setString(2, bookId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 	

@@ -19,12 +19,14 @@ public class DBConnectionUtil {
             return DriverManager.getConnection(url, id, pw);
         } catch (ClassNotFoundException e) {
             // Class.forName(driver); 예외처리
-            e.printStackTrace();
+//            e.printStackTrace();
+            throw new RuntimeException(e);
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            // DriverManager.getConnection(url, id, pw); 예외처리
+            System.out.println("DB 연결 실패: " + e.getMessage());
+            throw new RuntimeException(e);
         }
-
-        return null;
     }
 
     /**
@@ -34,6 +36,7 @@ public class DBConnectionUtil {
      * @param rs
      */
     public static void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+        // 자원 정리 순서는 연순서 반대로!
         try {
             if (rs != null) {
                 rs.close();
@@ -45,8 +48,8 @@ public class DBConnectionUtil {
                 conn.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-
+//            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
     }
 
