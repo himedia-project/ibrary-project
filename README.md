@@ -1,6 +1,10 @@
 # 📚 IBrary - 도서관 관리 시스템
 
+![image](https://github.com/user-attachments/assets/30f3f364-bd21-489a-827e-ac6f18d1be47)
+
 > 자바 기반의 콘솔 도서관 관리 시스템으로, MySQL 데이터베이스를 활용한 CRUD 기능을 제공합니다.
+
+> 시연영상: https://www.youtube.com/watch?v=PZwhMQPSs6k&list=PLrtykmiaS87tFT2POACEd4d17YG4gyv-G&index=2
 
 [![Java](https://img.shields.io/badge/Java-8+-orange.svg)](https://www.oracle.com/java/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-blue.svg)](https://www.mysql.com/)
