@@ -36,6 +36,7 @@ public class DBConnectionUtil {
      * @param rs
      */
     public static void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+        // 자원 정리 순서는 연순서 반대로!
         try {
             if (rs != null) {
                 rs.close();

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import static db.DBConnectionUtil.*;
 
 
 public class CategoryRepository {
@@ -25,7 +26,7 @@ public class CategoryRepository {
         List<Book> bookList = new ArrayList<>();
 
         try  {
-            conn = DBConnectionUtil.getDBConnect();
+            conn = getDBConnect();
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
@@ -41,7 +42,7 @@ public class CategoryRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBConnectionUtil.close(conn, pstmt, rs);
+            close(conn, pstmt, rs);
         }
         return bookList;
 
